@@ -1,3 +1,10 @@
+config-package-dev (4.3) unstable; urgency=low
+
+  * Fix bug where DEB_DIVERT code gets added twice if a package uses both
+    DEB_DIVERT_FILES and DEB_REPLACE_FILES.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sun,  6 Apr 2008 19:41:45 -0400
+
 config-package-dev (4.2) unstable; urgency=low
 
   * Rename DEB_REPLACE_FILES_SOURCE to DEB_CHECK_FILES_SOURCE, and

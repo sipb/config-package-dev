@@ -25,10 +25,8 @@ CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev
 DEB_DIVERT_SCRIPT = /usr/share/config-package-dev/divert.sh.in
 
 DEB_DIVERT_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
-    $(if $(DEB_DIVERT_FILES_$(package)),$(package)))
-
-DEB_DIVERT_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
-    $(if $(DEB_REPLACE_FILES_$(package)),$(package)))
+    $(if $(DEB_REPLACE_FILES_$(package)),$(package), \
+    $(if $(DEB_DIVERT_FILES_$(package)),$(package))))
 
 ifeq ($(DEB_DIVERT_EXTENSION),)
 DEB_DIVERT_EXTENSION = .divert

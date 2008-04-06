@@ -1,0 +1,25 @@
+Source: config-package-dev
+Section: devel
+Priority: extra
+Maintainer: Debian-Athena Project <debathena@mit.edu>
+Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0)
+Standards-Version: 3.7.2
+
+Package: config-package-dev
+Architecture: all
+Depends: cdbs, ${misc:Depends}
+Description: CDBS modules for building configuration packages
+ This package contains a system of CDBS modules for creating Debian
+ configuration packages: packages that configure an existing Debian
+ system by using dpkg-divert on configuration files.  These modules
+ attempt to make the process of creating configuration packages
+ efficient by checking the md5sums of upstream configuration files
+ that are to be modified and automatically generating the relevant
+ postinst code to perform the diversions using the standard debhelper
+ mechanism.
+ .
+ The config-package-dev modules are optimized for site defaults (i.e.
+ configuration for a university or a company), though they are useful
+ for other applications as well.
+ .
+ Homepage: http://debathena.mit.edu/config-packages/

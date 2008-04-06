@@ -1,0 +1,92 @@
+config-package-dev (4.2) unstable; urgency=low
+
+  * Rename DEB_REPLACE_FILES_SOURCE to DEB_CHECK_FILES_SOURCE, and
+    move it to check-files.mk, since it really is a check-files.mk
+    feature.
+  * Make check-files.mk include divert.mk.
+  * Don't directly include divert.mk in replace-files.mk.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sun, 17 Feb 2008 23:01:08 -0500
+
+config-package-dev (4.1) unstable; urgency=low
+
+  * Rename various API variables to make interface cleaner.
+  * Rename variables involving DEBIAN to DEB in variable names.
+  * Rename CONFFILES to FILES in variable names.
+  * Rename divert:Diverted to divert:Files
+  * Replace DEB_CONFFILE_DEST with DEB_REPLACE_FILES_SOURCE, changing the
+    source rather than the destination.
+  * Rename replace-conffiles.mk and check-conffiles.mk to *-files.mk.
+  * Add support for multiple files with same basename to replace_files.mk
+    via the DEB_TRANSFORM_SCRIPT variable.
+  * Remove deprecated check-files interface.
+  * Rename DEB_DIVERT_SUFFIX to DEB_DIVERT_EXTENSION.
+
+ -- Tim Abbott <tabbott@mit.edu>  Mon,  4 Feb 2008 02:07:16 -0500
+
+config-package-dev (4.0) unstable; urgency=low
+
+  * Rename variables to be appropriate for non-MIT sites.
+
+ -- Tim Abbott <tabbott@mit.edu>  Thu, 31 Jan 2008 15:15:20 -0500
+
+debathena-config-build-common (3.6) unstable; urgency=low
+
+  * Add new debathena-replace-conffiles.mk, a more user-friendly wrapper
+    for debathena-check-conffiles.mk and debathena-divert.mk.
+  * Change debathena-check-conffiles.mk to allow checking md5sums of
+    packaged files which are not marked as configuration files
+    (e.g. /etc/adduser/adduser.conf).
+  * Change debathena-divert.mk to not set DEBATHENA_DIVERT_SUFFIX unless
+    it is not already set.
+  * Change debathena-divert.mk to support adding Provides: and Conflicts:
+    lines for each diverted configuration file.
+  * Change debathena-divert.mk to divert everything in
+    DEBATHENA_REPLACE_CONFFILES.
+
+ -- Tim Abbott <tabbott@mit.edu>  Wed, 30 Jan 2008 20:03:36 -0500
+
+debathena-config-build-common (3.5) unstable; urgency=low
+
+  * Change check-conffiles interface to make it work properly with 
+    dpkg-diverted files.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Mon, 13 Aug 2007 17:59:43 -0400
+
+debathena-config-build-common (3.4) unstable; urgency=low
+
+  * Need [ -e ] || [ -L ] to check for existence, instead of just [ -e ].
+
+ -- Anders Kaseorg <andersk@mit.edu>  Mon, 06 Aug 2007 06:57:18 -0400
+
+debathena-config-build-common (3.3) unstable; urgency=low
+
+  * Add check-conffiles script.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Fri, 03 Aug 2007 17:50:20 -0400
+
+debathena-config-build-common (3.2) unstable; urgency=low
+
+  * Add debconf-hack script.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Tue, 24 Jul 2007 20:41:13 -0400
+
+debathena-config-build-common (3.1) unstable; urgency=low
+
+  * Divert with the current package name, not the empty string.
+  * Add this package as an automatic build dependency of anything that 
+    uses it.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Wed, 18 Jul 2007 01:13:40 -0400
+
+debathena-config-build-common (3.0debathena1) unstable; urgency=low
+
+  * Fix divert script version.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Fri, 13 Jul 2007 15:57:19 -0400
+
+debathena-config-build-common (3.0) unstable; urgency=low
+
+  * Initial release.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Fri, 06 Jul 2007 19:30:41 -0400

@@ -1,0 +1,31 @@
+#!/usr/bin/perl
+# Encode name of a file in a Debian package name.
+#
+# DO NOT CHANGE THIS FUNCTION OR WE WILL ALL BURN IN CONFLICT HELL
+# 
+# The purpose of this encoding is to cause Debian configuration
+# packages (potentially from different sites) that divert the same
+# configuration file to conflict with each other.  Thus, it is
+# important that all sites using this Debian configuration package
+# system use this encoding.
+#
+# This encoding is intended to be human-readable, so that users can
+# determine the cause of conflicts between different configuration
+# packages.
+ 
+print "configures-";
+$ARGV[0] =~ s,^/,,;
+split('', $ARGV[0]);
+foreach (@_){
+    if (m/[a-z0-9.-]/) {
+	print "$_";
+    } elsif (m/[A-Z]/) {
+	print "+".lc($_)."+";
+    } elsif ($_ eq '/') {
+	print "++";
+    } elsif ($_ eq '_') {
+	print "+-+";
+    } else{
+	print "+x".hex(ord($_))."+";
+    }
+}

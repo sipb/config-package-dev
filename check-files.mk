@@ -25,7 +25,7 @@ include /usr/share/cdbs/1/rules/divert.mk
 DEB_CHECK_FILES_DIR = debian/check_file_copies
 
 debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(1))
-debian_check_files_check = $(subst $(DEB_DIVERT_EXTENSION),,$(call debian_check_files_source,$(1)))
+debian_check_files_check = $(call divert_files_replace_name,$(call debian_check_files_source,$(1)))
 
 debian_check_files = $(patsubst %,$(DEB_CHECK_FILES_DIR)%,$(1))
 undebian_check_files = $(patsubst $(DEB_CHECK_FILES_DIR)%,%,$(1))

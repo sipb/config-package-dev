@@ -11,13 +11,38 @@
 #   Undoes the action of divert_link <prefix> <suffix> specified
 #   above.
 #
-# Version: 3.4
+# Version: 4.0
 #
 
 package=#PACKAGE#
 
 ours=#DEB_DIVERT_EXTENSION#
 theirs=#DEB_DIVERT_EXTENSION#-orig
+
+divert_link_divert()
+{
+    file=$1
+    ourfile=$2
+    theirfile=$3
+    if ! dpkg-divert --list "$package" | \
+	grep -xFq "diversion of $file to $theirfile by $package"; then
+	dpkg-divert --divert "$theirfile" --rename --package "$package" --add "$file"
+    fi
+}
+
+divert_link_symlink()
+{
+    file=$1
+    ourfile=$2
+    theirfile=$3
+    if [ ! -L "$file" ] && [ ! -e "$file" ]; then
+	ln -s "$(basename "$ourfile")" "$file"
+    elif [ ! -L "$file" ] || \
+	[ "$(readlink "$file")" != "$(basename "$ourfile")" -a \
+	  "$(readlink "$file")" != "$(basename "$theirfile")" ]; then
+	echo "*** OMINOUS WARNING ***: $file is not linked to either $(basename "$ourfile") or $(basename "$theirfile")" >&2
+    fi
+}
 
 divert_link()
 {
@@ -27,17 +52,39 @@ divert_link()
     file=$prefix$suffix
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
+    divert_link_divert "$file" "$ourfile" "$theirfile"
+    divert_link_symlink "$file" "$ourfile" "$theirfile"
+}
 
-    if ! dpkg-divert --list "$package" | \
-	grep -xFq "diversion of $file to $theirfile by $package"; then
-	dpkg-divert --divert "$theirfile" --rename --package "$package" --add "$file"
-    fi
-    if [ ! -L "$file" ] && [ ! -e "$file" ]; then
-	ln -s "$(basename "$ourfile")" "$file"
-    elif [ ! -L "$file" ] || \
+divert_remove()
+{
+    file=$1
+    ourfile=""
+    theirfile=$2
+    divert_link_divert "$file" "$ourfile" "$theirfile"
+}
+
+undivert_unlink_symlink()
+{
+    file="$1"
+    ourfile="$2"
+    theirfile="$3"
+    if [ ! -L "$file" ] || \
 	[ "$(readlink "$file")" != "$(basename "$ourfile")" -a \
 	  "$(readlink "$file")" != "$(basename "$theirfile")" ]; then
 	echo "*** OMINOUS WARNING ***: $file is not linked to either $(basename "$ourfile") or $(basename "$theirfile")" >&2
+    else
+	rm -f "$file"
+    fi
+}
+
+undivert_unlink_divert()
+{
+    file="$1"
+    if [ ! -L "$file" ] && [ ! -e "$file" ]; then
+	dpkg-divert --remove --rename --package "$package" "$file"
+    else
+	echo "Not removing diversion of $file by $package" >&2
     fi
 }
 
@@ -50,17 +97,13 @@ undivert_unlink()
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
 
-    if [ ! -L "$file" ] || \
-	[ "$(readlink "$file")" != "$(basename "$ourfile")" -a \
-	  "$(readlink "$file")" != "$(basename "$theirfile")" ]; then
-	echo "*** OMINOUS WARNING ***: $file is not linked to either $(basename "$ourfile") or $(basename "$theirfile")" >&2
-    else
-	rm -f "$file"
-    fi
-    if [ ! -L "$file" ] && [ ! -e "$file" ]; then
-	dpkg-divert --remove --rename --package "$package" "$file"
-    else
-	echo "Not removing diversion of $file by $package" >&2
-    fi
+    undivert_unlink_symlink "$file" "$ourfile" "$theirfile"
+    undivert_unlink_divert "$file" "$package"
+}
+
+undivert_unremove()
+{
+    file=$1
+    undivert_unlink_divert "$file"
 }
 

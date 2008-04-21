@@ -1,3 +1,18 @@
+config-package-dev (4.4) unstable; urgency=low
+
+  * Add new DEB_REMOVE_FILES_$package variable designed for removing
+    files in .d directories.
+  * Move the "configure-" in the filename encoding from the encode script
+    to divert.mk, so that we can re-use the encoder for DEB_REMOVE_FILES.
+  * Add new DEB_UNDIVERT_FILES_package and DEB_UNREMOVE_FILES_package
+    API variables for having a new version of the package stop diverting a
+    file.
+  * Correct check for not generating an empty if clause when no files are
+    being diverted.
+  * Remove only the last DEB_DIVERT_EXTENSION from filenames.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sat, 19 Apr 2008 21:03:02 -0400
+
 config-package-dev (4.3) unstable; urgency=low
 
   * Fix bug where DEB_DIVERT code gets added twice if a package uses both

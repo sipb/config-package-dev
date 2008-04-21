@@ -13,7 +13,6 @@
 # determine the cause of conflicts between different configuration
 # packages.
  
-print "configures-";
 $ARGV[0] =~ s,^/,,;
 split('', $ARGV[0]);
 foreach (@_){

@@ -1,3 +1,18 @@
+config-package-dev (4.5) unstable; urgency=low
+
+  * Rename DEB_REPLACE_FILES to DEB_TRANSFORM_FILES
+  * Create new config-package.mk as the outward-facing makefile fragment.
+  * Replace DEB_{UNREMOVE,UNDIVERT}_FILES_VERSION_file with
+    DEB_$1_VERSION_file
+
+ -- Tim Abbott <tabbott@mit.edu>  Mon, 21 Apr 2008 18:39:40 -0400
+
+config-package-dev (4.4.1) unstable; urgency=low
+
+  * Version bump, since 4.4~ << 4.4 causes build failures on Debathena.
+
+ -- Tim Abbott <tabbott@mit.edu>  Mon, 21 Apr 2008 17:51:02 -0400
+
 config-package-dev (4.4) unstable; urgency=low
 
   * Add new DEB_REMOVE_FILES_$package variable designed for removing

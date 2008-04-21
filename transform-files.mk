@@ -17,34 +17,34 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307 USA.
 
-ifndef _cdbs_rules_replace_files
-_cdbs_rules_replace_files = 1
+ifndef _cdbs_rules_transform_files
+_cdbs_rules_transform_files = 1
 
 include /usr/share/cdbs/1/rules/check-files.mk
 
-DEB_REPLACE_FILES = $(foreach package,$(DEB_ALL_PACKAGES),$(DEB_REPLACE_FILES_$(package)))
+DEB_TRANSFORM_FILES = $(foreach package,$(DEB_ALL_PACKAGES),$(DEB_TRANSFORM_FILES_$(package)))
 
-DEB_REPLACE_FILES_DIR=debian/replace_file_copies
+DEB_TRANSFORM_FILES_DIR=debian/transform_file_copies
 
-debian_replace_files = $(patsubst %,$(DEB_REPLACE_FILES_DIR)%,$(1))
-undebian_replace_files = $(patsubst $(DEB_REPLACE_FILES_DIR)%,%,$(1))
+debian_transform_files = $(patsubst %,$(DEB_TRANSFORM_FILES_DIR)%,$(1))
+undebian_transform_files = $(patsubst $(DEB_TRANSFORM_FILES_DIR)%,%,$(1))
 
-common-build-indep:: $(foreach file,$(DEB_REPLACE_FILES),$(call debian_replace_files,$(file)))
+common-build-indep:: $(foreach file,$(DEB_TRANSFORM_FILES),$(call debian_transform_files,$(file)))
 
-$(call debian_replace_files,%): $(call debian_check_files,%)
+$(call debian_transform_files,%): $(call debian_check_files,%)
 	mkdir -p $(@D)
-	$(if $(DEB_TRANSFORM_SCRIPT_$(call undebian_replace_files,$@)), \
-	    $(DEB_TRANSFORM_SCRIPT_$(call undebian_replace_files,$@)), \
-	    debian/transform_$(notdir $(call undebian_replace_files,$@))) < $< > $@
+	$(if $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$@)), \
+	    $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$@)), \
+	    debian/transform_$(notdir $(call undebian_transform_files,$@))) < $< > $@
 
 $(patsubst %,binary-install/%,$(DEB_ALL_PACKAGES)) :: binary-install/%:
-	$(foreach file,$(DEB_REPLACE_FILES_$(cdbs_curpkg)), \
+	$(foreach file,$(DEB_TRANSFORM_FILES_$(cdbs_curpkg)), \
 		install -d $(DEB_DESTDIR)/$(dir $(file)); \
-		cp -a $(DEB_REPLACE_FILES_DIR)$(file) \
+		cp -a $(DEB_TRANSFORM_FILES_DIR)$(file) \
 		    $(DEB_DESTDIR)/$(dir $(file));)
 
 clean::
-	$(foreach file,$(DEB_REPLACE_FILES),rm -f debian/$(notdir $(file)))
-	rm -rf $(DEB_REPLACE_FILES_DIR)
+	$(foreach file,$(DEB_TRANSFORM_FILES),rm -f debian/$(notdir $(file)))
+	rm -rf $(DEB_TRANSFORM_FILES_DIR)
 
 endif

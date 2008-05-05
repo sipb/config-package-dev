@@ -20,6 +20,8 @@
 ifndef _cdbs_rules_divert
 _cdbs_rules_divert = 1
 
+include /usr/share/cdbs/1/rules/debhelper.mk
+
 CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 4.5~)
 
 DEB_DIVERT_SCRIPT = /usr/share/config-package-dev/divert.sh.in
@@ -93,6 +95,6 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 	    echo \
 	) >> $(CURDIR)/debian/$(cdbs_curpkg).substvars
 
-$(patsubst %,binary-fixup/%,$(DEB_DIVERT_PACKAGES)) :: binary-fixup/%: debian-divert/%
+$(patsubst %,binary-post-install/%,$(DEB_DIVERT_PACKAGES)) :: binary-post-install/%: debian-divert/%
 
 endif

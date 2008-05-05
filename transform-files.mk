@@ -29,7 +29,7 @@ DEB_TRANSFORM_FILES_DIR=debian/transform_file_copies
 debian_transform_files = $(patsubst %,$(DEB_TRANSFORM_FILES_DIR)%,$(1))
 undebian_transform_files = $(patsubst $(DEB_TRANSFORM_FILES_DIR)%,%,$(1))
 
-common-build-indep:: $(foreach file,$(DEB_TRANSFORM_FILES),$(call debian_transform_files,$(file)))
+common-build-arch common-build-indep:: $(foreach file,$(DEB_TRANSFORM_FILES),$(call debian_transform_files,$(file)))
 
 $(call debian_transform_files,%): $(call debian_check_files,%)
 	mkdir -p $(@D)
@@ -44,7 +44,6 @@ $(patsubst %,binary-install/%,$(DEB_ALL_PACKAGES)) :: binary-install/%:
 		    $(DEB_DESTDIR)/$(dir $(file));)
 
 clean::
-	$(foreach file,$(DEB_TRANSFORM_FILES),rm -f debian/$(notdir $(file)))
 	rm -rf $(DEB_TRANSFORM_FILES_DIR)
 
 endif

@@ -1,3 +1,18 @@
+config-package-dev (4.7) unstable; urgency=low
+
+  * Move homepage field to source package section, so it works.
+  * Make DEB_TRANSFROM_FILES targets depend on common-build-arch and
+    common-build-indep, so it works with architecture-dependent packages.
+  * Remove useless clean code from transform-files.mk.
+  * Move divert.mk from binary-fixup to binary-post-install.
+  * Add debhelper.mk to divert.mk, since we use its
+    binary-post-install/package target.
+  * Change maintainer to me, rather than debathena@mit.edu, since I'll be
+    maintaining config-package-dev in Debian.
+  * Upload to Debian (Closes: #469107)
+
+ -- Tim Abbott <tabbott@mit.edu>  Sat, 03 May 2008 13:37:12 -0400
+
 config-package-dev (4.6) unstable; urgency=low
 
   * Remove DEB_AUTO_UPDATE_DEBIAN_CONTROL so it can be uploaded to Debian.

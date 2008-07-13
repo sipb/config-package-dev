@@ -1,3 +1,14 @@
+config-package-dev (4.8) unstable; urgency=low
+
+  * Add additional documentation to the makefile fragments
+  * Add doc/ directory with pointer to online documentation
+  * Add examples/ directory (Closes: #486130).
+  * Rename configures- to diverts- as the prefix for the virtual packages
+    that cause packages diverting the same file to conflict, since that is
+    clearer.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sun, 13 Jul 2008 01:54:48 -0400
+
 config-package-dev (4.7) unstable; urgency=low
 
   * Move homepage field to source package section, so it works.

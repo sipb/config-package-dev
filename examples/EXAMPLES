@@ -1,0 +1,19 @@
+This directory contains example packages using the config-package-dev
+system that you can start from in designing your own packages.
+
+debathena-conffile-example-1.0: Example package using DEB_DIVERT_FILES to divert configuration files
+debathena-bin-example-1.0: Example package diverting binaries using DEB_DIVERT_FILES
+debathena-bin-example-1.1: Upgrade of debathena-bin-example-1.0 removing one of the diversions using DEB_UNDIVERT_FILES.
+debathena-transform-example-1.0: Example package using DEB_TRANSFORM_FILES
+debathena-cron-example-1.0: Example package using DEB_REMOVE_FILES to disable a cron job
+
+Note that if you want the control files to be regenerated from the
+control.in files, you need to add
+
+DEB_AUTO_UPDATE_DEBIAN_CONTROL=1
+
+to the debian/rules files (or e.g. set it in your environment).
+
+We do not include DEB_AUTO_UPDATE_DEBIAN_CONTROL=1 in these example
+rules files because option is banned in official Debian packages (see
+the CDBS section of <http://ftp-master.debian.org/REJECT-FAQ.html>).

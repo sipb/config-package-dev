@@ -17,6 +17,12 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307 USA.
 
+# Don't include divert.mk in your rules files directly; instead use
+# config-package.mk.
+
+# divert.mk handles the low-level diversion logic.  It includes
+# divert.sh.in in the postinst and prerm scripts, and adds 
+
 ifndef _cdbs_rules_divert
 _cdbs_rules_divert = 1
 
@@ -24,7 +30,12 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 
 CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 4.5~)
 
+# divert.sh.in is included in the postinst/prerm scripts of packages
+# installing diversions using config-package-dev.
 DEB_DIVERT_SCRIPT = /usr/share/config-package-dev/divert.sh.in
+# script used to encode the path of a file uniquely in a valid virtual
+# package name.
+DEB_DIVERT_ENCODER = /usr/share/config-package-dev/encode
 
 DEB_DIVERT_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
     $(if $(DEB_TRANSFORM_FILES_$(package)),$(package), \
@@ -37,8 +48,9 @@ ifeq ($(DEB_DIVERT_EXTENSION),)
 DEB_DIVERT_EXTENSION = .divert
 endif
 
-DEB_DIVERT_ENCODER = /usr/share/config-package-dev/encode
-
+# Replace only the last instance of DEB_DIVERT_EXTENSION in the
+# filename, to make it possible to divert /path/foo.divert to
+# foo.divert.divert-orig
 divert_files_replace_name = $(shell echo $(1) | perl -pe 's/(.*)\Q$(DEB_DIVERT_EXTENSION)\E/$$1$(2)/')
 
 debian-divert/%: package = $(subst debian-divert/,,$@)
@@ -49,6 +61,9 @@ debian-divert/%: divert_unremove_files = $(DEB_UNREMOVE_FILES_$(package))
 debian-divert/%: divert_files_all = $(strip $(divert_files) $(divert_remove_files) $(divert_undivert_files) $(divert_unremove_files))
 debian-divert/%: divert_files_thispkg = $(strip $(divert_files) $(divert_remove_files))
 $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
+#   Writing shell scripts in makefiles sucks.  Remember to $$ shell
+#   variables and include \ at the end of each line.
+# Add code to postinst to add/remove diversions as appropriate
 	( \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_all), \
@@ -75,6 +90,7 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		echo 'fi'; \
 	    ) \
 	) >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
+# Add code to prerm script to undo diversions when package is removed.
 	( \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_thispkg), \
@@ -86,10 +102,16 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		echo 'fi'; \
 	    ) \
 	) >> $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper
+# Add an encoding of the names of the diverted files to the Provides:
+# and Conflicts: lists.  This prevents two packages diverting the same
+# file from being installed simultaneously (it cannot work, and this
+# produces a much less ugly error).  Requires in debian/control:
+#   Provides: $(diverted-files)
+#   Conflicts: $(diverted-files)
 	( \
 	    echo -n "diverted-files="; \
 	    $(foreach file,$(divert_files_thispkg),\
-		echo -n "configures-"; \
+		echo -n "diverts-"; \
 		${DEB_DIVERT_ENCODER} "$(call divert_files_replace_name,$(file))"; \
 		echo -n ", ";) \
 	    echo \

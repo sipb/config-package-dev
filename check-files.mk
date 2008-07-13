@@ -17,25 +17,47 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 # 02111-1307 USA.
 
+# Don't include check-files.mk in your rules files directly; instead
+# use config-package.mk.
+
+# check-files.mk is used to verify that files on local disk have not
+# been modified from the upstream packaged version.  Its only API
+# function is adding the following function as a dependency:
+#
+# $(call debian_check_files,filename)
+#
+#   Returns the path to a copy of filename that is verified to be
+# unmodified from the version shipped by the distribution (by checking
+# md5sums).  The function causes the package to fail to build if the
+# relevant configuration file has been modified on the build machine.
+
 ifndef _cdbs_rules_check_files
 _cdbs_rules_check_files = 1
 
 include /usr/share/cdbs/1/rules/divert.mk
 
-DEB_CHECK_FILES_DIR = debian/check_file_copies
+DEB_CHECK_FILES_TMPDIR = debian/check_file_copies
 
 debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(1))
 debian_check_files_check = $(call divert_files_replace_name,$(call debian_check_files_source,$(1)))
 
-debian_check_files = $(patsubst %,$(DEB_CHECK_FILES_DIR)%,$(1))
-undebian_check_files = $(patsubst $(DEB_CHECK_FILES_DIR)%,%,$(1))
+debian_check_files = $(patsubst %,$(DEB_CHECK_FILES_TMPDIR)%,$(1))
+undebian_check_files = $(patsubst $(DEB_CHECK_FILES_TMPDIR)%,%,$(1))
 
 debian_check_files_tmp = $(patsubst %,%.tmp,$(call debian_check_files,$(1)))
 undebian_check_files_tmp = $(call undebian_check_files,$(patsubst %.tmp,%,$(1)))
 
+# We need a level of indirection here in order to make sure that
+# normal makefile targets, like "clean", are not affected by the
+# debian_check_files rules.
 $(call debian_check_files,%): $(call debian_check_files_tmp,%)
 	mv $< $@
 
+# We check md5sums from both /var/lib/dpkg/info/$(package).md5sums
+# (the md5sums database for non-conffiles) and the conffiles database
+# used for prompting about conffiles being changed (via dpkg-query).
+#
+# There is some wrangling here because the formats of these sources differ.
 $(call debian_check_files_tmp,%): target = $(call undebian_check_files_tmp,$@)
 $(call debian_check_files_tmp,%): name = $(call debian_check_files_check,$(target))
 $(call debian_check_files_tmp,%): truename = $(shell /usr/sbin/dpkg-divert --truename $(name))
@@ -53,11 +75,11 @@ $(call debian_check_files_tmp,%): $(truename)
 		/var/lib/dpkg/info/$(package).md5sums); \
 	    [ -n "$$md5" ] && echo "$$md5" | md5sum -c; \
 	else \
-	    echo "warning: $(package) does not include md5sums!"; \
-	    echo "warning: md5sum for $(name) not verified."; \
+	    echo "config-package-dev: warning: $(package) does not include md5sums!"; \
+	    echo "config-package-dev: warning: md5sum for $(name) not verified."; \
 	fi
 
 clean::
-	rm -rf $(DEB_CHECK_FILES_DIR)
+	rm -rf $(DEB_CHECK_FILES_TMPDIR)
 
 endif

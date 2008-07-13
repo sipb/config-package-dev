@@ -1,0 +1,11 @@
+Extensive documentation is available on the web at
+<http://debathena.mit.edu/config-package-dev>.
+
+Several ready-to-use examples are available in
+/usr/share/doc/config-package-dev/examples
+
+/usr/share/cdbs/1/rules/config-package.mk and the makefile fragments
+that it includes also contain some basic documentation.  They are
+fairly short, but may not be easy to ready without consulting the GNU
+Make Manual (http://www.gnu.org/software/make/manual/make.html) and
+inspecting the core CDBS rules files as well.

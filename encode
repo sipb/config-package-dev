@@ -1,8 +1,6 @@
 #!/usr/bin/perl
 # Encode name of a file in a Debian package name.
 #
-# DO NOT CHANGE THIS FUNCTION OR WE WILL ALL BURN IN CONFLICT HELL
-# 
 # The purpose of this encoding is to cause Debian configuration
 # packages (potentially from different sites) that divert the same
 # configuration file to conflict with each other.  Thus, it is

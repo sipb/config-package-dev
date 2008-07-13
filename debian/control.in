@@ -2,9 +2,9 @@ Source: config-package-dev
 Section: devel
 Priority: extra
 Maintainer: Tim Abbott <tabbott@mit.edu>
-Homepage: http://debathena.mit.edu/config-packages/
+Homepage: http://debathena.mit.edu/config-package-dev
 Build-Depends: @cdbs@
-Standards-Version: 3.7.3
+Standards-Version: 3.8.0
 
 Package: config-package-dev
 Architecture: all

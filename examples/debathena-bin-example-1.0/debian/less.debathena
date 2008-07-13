@@ -1,0 +1,4 @@
+#!/bin/sh
+# Wrapper to make less read tarballs and so on.
+eval $(lesspipe)
+exec less.debathena-orig "$@"

@@ -1,3 +1,10 @@
+config-package-dev (4.9) unstable; urgency=low
+
+  * Fix destdir handling for multiple binary packages in
+    DEB_TRANSFORM_FILES.
+
+ -- Tim Abbott <tabbott@mit.edu>  Fri,  3 Oct 2008 23:43:49 -0400
+
 config-package-dev (4.8) unstable; urgency=low
 
   * Add additional documentation to the makefile fragments

@@ -42,9 +42,9 @@ $(call debian_transform_files,%): $(call debian_check_files,%)
 
 $(patsubst %,binary-install/%,$(DEB_ALL_PACKAGES)) :: binary-install/%:
 	$(foreach file,$(DEB_TRANSFORM_FILES_$(cdbs_curpkg)), \
-		install -d $(DEB_DESTDIR)/$(dir $(file)); \
+		install -d debian/$(cdbs_curpkg)/$(dir $(file)); \
 		cp -a $(call debian_transform_files,$(file)) \
-		    $(DEB_DESTDIR)/$(dir $(file));)
+		    debian/$(cdbs_curpkg)/$(dir $(file));)
 
 clean::
 	rm -rf $(DEB_TRANSFORM_FILES_TMPDIR)

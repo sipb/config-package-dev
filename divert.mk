@@ -85,7 +85,7 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		$(foreach file,$(divert_files), \
 		    echo "    divert_link $(call divert_files_replace_name,$(file), )";) \
 		$(foreach file,$(divert_remove_files), \
-		    mkdir -p $(DEB_DESTDIR)/usr/share/$(cdbs_curpkg); \
+		    mkdir -p debian/$(cdbs_curpkg)/usr/share/$(cdbs_curpkg); \
 		    echo "    divert_remove $(file) /usr/share/$(cdbs_curpkg)/`$(DEB_DIVERT_ENCODER) $(file)`";) \
 		echo 'fi'; \
 	    ) \

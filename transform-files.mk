@@ -41,6 +41,7 @@ $(call debian_transform_files,%): $(call debian_check_files,%)
 	    debian/transform_$(notdir $(call undebian_transform_files,$@))) < $< > $@
 
 $(patsubst %,binary-install/%,$(DEB_ALL_PACKAGES)) :: binary-install/%:
+	set -e; \
 	$(foreach file,$(DEB_TRANSFORM_FILES_$(cdbs_curpkg)), \
 		install -d debian/$(cdbs_curpkg)/$(dir $(file)); \
 		cp -a $(call debian_transform_files,$(file)) \

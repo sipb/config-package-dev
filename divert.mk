@@ -64,7 +64,8 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 #   Writing shell scripts in makefiles sucks.  Remember to $$ shell
 #   variables and include \ at the end of each line.
 # Add code to postinst to add/remove diversions as appropriate
-	( \
+	set -e; \
+	{ \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_all), \
 		echo 'if [ "$$1" = "configure" ]; then'; \
@@ -89,9 +90,10 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		    echo "    divert_remove $(file) /usr/share/$(cdbs_curpkg)/`$(DEB_DIVERT_ENCODER) $(file)`";) \
 		echo 'fi'; \
 	    ) \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
 # Add code to prerm script to undo diversions when package is removed.
-	( \
+	set -e; \
+	{ \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_thispkg), \
 		echo 'if [ "$$1" = "remove" ]; then'; \
@@ -101,21 +103,22 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		    echo "    undivert_unremove $(file) $(cdbs_curpkg)";) \
 		echo 'fi'; \
 	    ) \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper
 # Add an encoding of the names of the diverted files to the Provides:
 # and Conflicts: lists.  This prevents two packages diverting the same
 # file from being installed simultaneously (it cannot work, and this
 # produces a much less ugly error).  Requires in debian/control:
 #   Provides: $(diverted-files)
 #   Conflicts: $(diverted-files)
-	( \
+	set -e; \
+	{ \
 	    echo -n "diverted-files="; \
 	    $(foreach file,$(divert_files_thispkg),\
 		echo -n "diverts-"; \
 		${DEB_DIVERT_ENCODER} "$(call divert_files_replace_name,$(file))"; \
 		echo -n ", ";) \
-	    echo \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).substvars
+	    echo; \
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).substvars
 
 $(patsubst %,binary-post-install/%,$(DEB_DIVERT_PACKAGES)) :: binary-post-install/%: debian-divert/%
 

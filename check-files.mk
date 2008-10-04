@@ -66,6 +66,7 @@ $(call debian_check_files_tmp,%): $(truename)
 	[ -n $(package) ]
 	mkdir -p $(@D)
 	cp "$(truename)" $@
+	set -e; \
 	md5=$$(dpkg-query --showformat='$${Conffiles}\n' --show $(package) | \
 	    sed -n 's,^ $(name) \([0-9a-f]*\)$$,\1  $@, p'); \
 	if [ -n "$$md5" ]; then \

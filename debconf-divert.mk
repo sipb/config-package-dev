@@ -28,7 +28,8 @@ DEB_DEBCONF_HACK_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
     $(if $(wildcard debian/$(package).debconf-hack),$(package)))
 
 $(patsubst %,debian-debconf-hack/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: debian-debconf-hack/%:
-	( \
+	set -e; \
+	{ \
 	    cat $(DEB_DEBCONF_HACK_SCRIPT); \
 	    echo 'if [ ! -f /var/cache/$(cdbs_curpkg).debconf-save ]; then'; \
 	    echo '    debconf_get $(shell cut -d'	' -f2 debian/$(cdbs_curpkg).debconf-hack) >/var/cache/$(cdbs_curpkg).debconf-save'; \
@@ -36,21 +37,23 @@ $(patsubst %,debian-debconf-hack/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: debian-debco
 	    sed 's/$$/	true/' debian/$(cdbs_curpkg).debconf-hack; \
 	    echo 'EOF'; \
 	    echo 'fi'; \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).preinst.debhelper
-	( \
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).preinst.debhelper
+	set -e; \
+	{ \
 	    cat $(DEB_DEBCONF_HACK_SCRIPT); \
 	    echo 'if [ -f /var/cache/$(cdbs_curpkg).debconf-save ]; then'; \
 	    echo '    debconf_set </var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo '    rm -f /var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo 'fi'; \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
-	( \
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
+	set -e; \
+	{ \
 	    cat $(DEB_DEBCONF_HACK_SCRIPT); \
 	    echo 'if [ -f /var/cache/$(cdbs_curpkg).debconf-save ]; then'; \
 	    echo '    debconf_set </var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo '    rm -f /var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo 'fi'; \
-	) >> $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper
 
 $(patsubst %,binary-fixup/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: binary-fixup/%: debian-debconf-hack/%
 

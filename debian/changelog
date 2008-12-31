@@ -2,7 +2,7 @@ config-package-dev (4.9) unstable; urgency=low
 
   [ Tim Abbott ]
   * Fix destdir handling for multiple binary packages in
-    DEB_TRANSFORM_FILES.
+    DEB_TRANSFORM_FILES (Closes: #510355).
 
   [ Anders Kaseorg ]
   * Use set -e in multi-statement Makefile commands.

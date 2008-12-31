@@ -3,11 +3,12 @@ config-package-dev (4.9) unstable; urgency=low
   [ Tim Abbott ]
   * Fix destdir handling for multiple binary packages in
     DEB_TRANSFORM_FILES (Closes: #510355).
+  * Add Anders Kaseorg to Uploaders.
 
   [ Anders Kaseorg ]
   * Use set -e in multi-statement Makefile commands.
 
- -- Anders Kaseorg <andersk@mit.edu>  Sat, 04 Oct 2008 00:28:23 -0400
+ -- Tim Abbott <tabbott@mit.edu>  Wed, 31 Dec 2008 16:39:44 -0500
 
 config-package-dev (4.8) unstable; urgency=low
 

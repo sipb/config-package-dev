@@ -36,6 +36,7 @@ common-build-arch common-build-indep:: $(foreach file,$(DEB_TRANSFORM_FILES),$(c
 
 $(call debian_transform_files,%): $(call debian_check_files,%)
 	mkdir -p $(@D)
+	chmod +x debian/transform_$(notdir $(call undebian_transform_files,$@))
 	$(if $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$@)), \
 	    $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$@)), \
 	    debian/transform_$(notdir $(call undebian_transform_files,$@))) < $< > $@

@@ -1,6 +1,6 @@
 config-package-dev (4.10) unstable; urgency=low
 
-  * Make transform scripts as executable before attempting to execute them
+  * Mark transform scripts as executable before attempting to execute them
     (Closes: #528995).
 
  -- Tim Abbott <tabbott@mit.edu>  Sun, 02 Aug 2009 19:48:33 -0400

@@ -1,3 +1,10 @@
+config-package-dev (4.11) unstable; urgency=low
+
+  * Fix marking transform scripts as executable when
+    DEB_TRANSFORM_SCRIPT_package is used.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sat, 05 Sep 2009 11:46:54 -0400
+
 config-package-dev (4.10) unstable; urgency=low
 
   * Mark transform scripts as executable before attempting to execute them

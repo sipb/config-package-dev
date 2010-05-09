@@ -1,0 +1,11 @@
+#!/usr/bin/perl
+$ARGV[0] =~ s/\+([^+]*)\+/unparse($1)/eg;
+print $ARGV[0];
+sub unparse {
+    $_ = $_[0];
+    return "/" unless $_;
+    return "_" if $_ eq "-";
+    return uc($_) if /^[a-z]$/;
+    s/^x//;
+    return chr hex $_;
+}

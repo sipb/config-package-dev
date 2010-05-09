@@ -1,3 +1,13 @@
+config-package-dev (4.12) unstable; urgency=low
+
+  * Allow specifying DEB_TRANSFORM_SCRIPT_$package_$file in case you want
+    multiple binary packages transforming the same file differently.
+    (Thanks to Evan Broder for this patch).
+  * Add a decode script for undoing the file to virtual package name
+    transformation. (Thanks to Patrick Hurst for writing decode).
+
+ -- Tim Abbott <tabbott@mit.edu>  Sun, 09 May 2010 14:14:50 -0400
+
 config-package-dev (4.11) unstable; urgency=low
 
   * Fix marking transform scripts as executable when

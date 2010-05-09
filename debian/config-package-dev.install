@@ -4,5 +4,6 @@ check-files.mk usr/share/cdbs/1/rules/
 config-package.mk usr/share/cdbs/1/rules/
 transform-files.mk usr/share/cdbs/1/rules/
 encode usr/share/config-package-dev/
+decode usr/share/config-package-dev/
 divert.sh.in usr/share/config-package-dev/
 debconf-hack.sh usr/share/config-package-dev/

@@ -31,9 +31,11 @@ DEB_TRANSFORM_FILES_TMPDIR=debian/transform_file_copies
 
 debian_transform_files = $(patsubst %,$(DEB_TRANSFORM_FILES_TMPDIR)%,$(1))
 undebian_transform_files = $(patsubst $(DEB_TRANSFORM_FILES_TMPDIR)%,%,$(1))
-debian_transform_script = $(if $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$(1))), \
-	$(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$(1))), \
-	debian/transform_$(notdir $(call undebian_transform_files,$(1))))
+debian_transform_script = $(if $(DEB_TRANSFORM_SCRIPT_$(cdbs_curpkg)_$(call undebian_transform_files,$(1))), \
+	$(DEB_TRANSFORM_SCRIPT_$(cdbs_curpkg)_$(call undebian_transform_files,$(1))), \
+	$(if $(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$(1))), \
+		$(DEB_TRANSFORM_SCRIPT_$(call undebian_transform_files,$(1))), \
+		debian/transform_$(notdir $(call undebian_transform_files,$(1)))))
 
 common-build-arch common-build-indep:: $(foreach file,$(DEB_TRANSFORM_FILES),$(call debian_transform_files,$(file)))
 

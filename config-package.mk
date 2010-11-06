@@ -85,24 +85,17 @@
 # DEB_DIVERT_FILES.
 #
 # DEB_UNDIVERT_FILES_package += /path/file.divert
-# DEB_UNDIVERT_VERSION_/path/file.divert = 1.0-1
 #
 #   List of absolute paths to files whose diversions caused by
-# DEB_DIVERT_FILES are to be removed upon installing this package.
-# This is primarily useful for removing a now-unecessary diversion
-# provided by a previous version of this package on an upgrade.
-#
-#   The DEB_UNDIVERT_VERSION_file variable should be set to the
-# version number of this package at which you added
-# DEB_UNDIVERT_FILES_path/file.divert; it is used to avoid attempting
-# to remove the diversions again on future upgrades.
+# DEB_DIVERT_FILES are to be removed upon installing this package, if
+# the diversions have been made on the target system.  This is
+# primarily useful for removing a now-unecessary diversion provided by
+# a previous version of this package on an upgrade.
 #
 # DEB_UNREMOVE_FILES_package += /path/file
-# DEB_UNREMOVE_VERSION_/path/file = 1.0-1
 #
 #   This works like DEB_UNDIVERT_FILES_package, except that it only
-# removes the diversion (not a symlink) and the version number is
-# specified with DEB_UNREMOVE_VERSION_/path/file.
+# removes the diversion (not a symlink).
 
 ifndef _cdbs_rules_config_package
 _cdbs_rules_config_package = 1

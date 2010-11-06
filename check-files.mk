@@ -63,7 +63,7 @@ $(call debian_check_files_tmp,%): name = $(call debian_check_files_check,$(targe
 $(call debian_check_files_tmp,%): truename = $(shell /usr/sbin/dpkg-divert --truename $(name))
 $(call debian_check_files_tmp,%): package = $(shell dpkg -S $(name) | grep -v "^diversion by" | cut -f1 -d:)
 $(call debian_check_files_tmp,%): $(truename)
-	[ -n $(package) ]
+	[ -n "$(package)" ]
 	mkdir -p $(@D)
 	cp "$(truename)" $@
 	set -e; \

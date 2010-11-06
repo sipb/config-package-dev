@@ -53,6 +53,10 @@ endif
 # foo.divert.divert-orig
 divert_files_replace_name = $(shell echo $(1) | perl -pe 's/(.*)\Q$(DEB_DIVERT_EXTENSION)\E/$$1$(2)/')
 
+# Transform a full path into the path it should be diverted to if it's
+# removed
+remove_files_name = /usr/share/$(cdbs_curpkg)/$(shell $(DEB_DIVERT_ENCODER) $(1))
+
 debian-divert/%: package = $(subst debian-divert/,,$@)
 debian-divert/%: divert_files = $(DEB_DIVERT_FILES_$(package)) $(DEB_TRANSFORM_FILES_$(package))
 debian-divert/%: divert_remove_files = $(DEB_REMOVE_FILES_$(package))
@@ -70,24 +74,14 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 	    $(if $(divert_files_all), \
 		echo 'if [ "$$1" = "configure" ]; then'; \
 		$(foreach file,$(divert_undivert_files), \
-		    $(if $(DEB_UNDIVERT_VERSION_$(file)),,\
-			echo "ERROR!  Missing undivert version for $(file)!">&2; exit 1;) \
-		    echo -n "    if [ -n \"\$$2\" ] && dpkg --compare-versions \"\$$2\" '<<' "; \
-		    echo "'$(DEB_UNDIVERT_VERSION_$(file))'; then"; \
-		    echo "        undivert_unlink $(call divert_files_replace_name,$(file), )"; \
-		    echo "    fi";) \
+		    echo "    check_undivert_unlink $(call divert_files_replace_name,$(file), )"; )\
 		$(foreach file,$(divert_unremove_files), \
-		    $(if $(DEB_UNREMOVE_VERSION_$(file)),,\
-			echo "ERROR!  Missing unremove version for $(file)!">&2; exit 1;) \
-		    echo -n "    if [ -n \"\$$2\" ] && dpkg --compare-versions \"\$$2\" '<<' "; \
-		    echo "'$(DEB_UNREMOVE_VERSION_$(file))'; then"; \
-		    echo "        undivert_unremove $(file)"; \
-		    echo "    fi";) \
+		    echo "    check_undivert_unremove $(file) $(call remove_files_name,$(file))"; )\
 		$(foreach file,$(divert_files), \
 		    echo "    divert_link $(call divert_files_replace_name,$(file), )";) \
 		$(foreach file,$(divert_remove_files), \
 		    mkdir -p debian/$(cdbs_curpkg)/usr/share/$(cdbs_curpkg); \
-		    echo "    divert_remove $(file) /usr/share/$(cdbs_curpkg)/`$(DEB_DIVERT_ENCODER) $(file)`";) \
+		    echo "    divert_remove $(file) $(call remove_files_name,$(file))";) \
 		echo 'fi'; \
 	    ) \
 	} >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper

@@ -13,12 +13,11 @@ DEB_DIVERT_FILES_debathena-bin-example += /usr/share/man/man1/less.debathena.1.g
 DEB_DH_LINK_debathena-bin-example += \
 	/usr/share/man/man1/less.debathena-orig.1.gz /usr/share/man/man1/less.debathena.1.gz
 
-# Remove elinks diversion on upgrade from version(s) prior to 1.1
+# Remove elinks diversion on upgrade if it was previously in place on
+# the target system
 DEB_UNDIVERT_FILES_debathena-bin-example += /usr/bin/elinks.debathena
-DEB_UNDIVERT_VERSION_/usr/bin/elinks.debathena = 1.1
 # and the man page
 DEB_UNDIVERT_FILES_debathena-bin-example += /usr/share/man/man1/elinks.debathena.1.gz
-DEB_UNDIVERT_VERSION_/usr/share/man/man1/elinks.debathena.1.gz = 1.1
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/config-package.mk

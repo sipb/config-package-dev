@@ -1,12 +1,20 @@
 config-package-dev (4.12) unstable; urgency=low
 
+  [ Tim Abbott ]
   * Allow specifying DEB_TRANSFORM_SCRIPT_$package_$file in case you want
     multiple binary packages transforming the same file differently.
     (Thanks to Evan Broder for this patch).
   * Add a decode script for undoing the file to virtual package name
     transformation. (Thanks to Patrick Hurst for writing decode).
 
- -- Tim Abbott <tabbott@mit.edu>  Sun, 09 May 2010 14:14:50 -0400
+  [ Anders Kaseorg ]
+  * Fix a quoting bug that failed to disallow transformation of generated
+    conffiles.  (Patch from Evan Broder.)
+  * Remove DEB_UNDIVERT_VERSION_file and DEB_UNREMOVE_VERSION_file, and
+    instead test for the undiverted file in the postinst.  (Patch from
+    Evan Broder.)
+
+ -- Anders Kaseorg <andersk@mit.edu>  Sat, 06 Nov 2010 19:02:52 -0400
 
 config-package-dev (4.11) unstable; urgency=low
 

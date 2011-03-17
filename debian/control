@@ -7,7 +7,7 @@ Homepage: http://debathena.mit.edu/config-package-dev
 Build-Depends: cdbs,
  debhelper (>= 6),
  dh-buildinfo
-Standards-Version: 3.8.0
+Standards-Version: 3.9.1
 
 Package: config-package-dev
 Architecture: all

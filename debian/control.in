@@ -5,7 +5,7 @@ Maintainer: Tim Abbott <tabbott@mit.edu>
 Uploaders: Anders Kaseorg <andersk@mit.edu>
 Homepage: http://debathena.mit.edu/config-package-dev
 Build-Depends: @cdbs@
-Standards-Version: 3.8.0
+Standards-Version: 3.9.1
 
 Package: config-package-dev
 Architecture: all

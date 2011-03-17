@@ -13,8 +13,10 @@ config-package-dev (4.12) unstable; urgency=low
   * Remove DEB_UNDIVERT_VERSION_file and DEB_UNREMOVE_VERSION_file, and
     instead test for the undiverted file in the postinst.  (Patch from
     Evan Broder.)
+  * Write the prerm and postrm maintainer script fragments in reverse
+    order when DH_COMPAT ≥ 5, to match debhelper’s behavior.
 
- -- Anders Kaseorg <andersk@mit.edu>  Sat, 06 Nov 2010 19:02:52 -0400
+ -- Anders Kaseorg <andersk@mit.edu>  Sat, 05 Feb 2011 21:21:59 -0500
 
 config-package-dev (4.11) unstable; urgency=low
 

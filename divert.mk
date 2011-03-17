@@ -57,6 +57,11 @@ divert_files_replace_name = $(shell echo $(1) | perl -pe 's/(.*)\Q$(DEB_DIVERT_E
 # removed
 remove_files_name = /usr/share/$(cdbs_curpkg)/$(shell $(DEB_DIVERT_ENCODER) $(1))
 
+dh_compat_5 := $(shell if [ '$(DH_COMPAT)' -ge 5 ]; then echo y; fi)
+
+reverse = $(foreach n,$(shell seq $(words $(1)) -1 1),$(word $(n),$(1)))
+reverse_dh_compat_5 = $(if $(dh_compat_5),$(call reverse,$(1)),$(1))
+
 debian-divert/%: package = $(subst debian-divert/,,$@)
 debian-divert/%: divert_files = $(DEB_DIVERT_FILES_$(package)) $(DEB_TRANSFORM_FILES_$(package))
 debian-divert/%: divert_remove_files = $(DEB_REMOVE_FILES_$(package))
@@ -88,16 +93,26 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 # Add code to prerm script to undo diversions when package is removed.
 	set -e; \
 	{ \
+	    $(if $(dh_compat_5),, \
+		if [ -e $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper ]; then \
+		    cat $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper; \
+		fi;) \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_thispkg), \
 		echo 'if [ "$$1" = "remove" ]; then'; \
-		$(foreach file,$(divert_files), \
+		$(foreach file,$(call reverse_dh_compat_5,$(divert_files)), \
 		    echo "    undivert_unlink $(call divert_files_replace_name,$(file), )";) \
-		$(foreach file,$(divert_remove_files), \
+		$(foreach file,$(call reverse_dh_compat_5,$(divert_remove_files)), \
 		    echo "    undivert_unremove $(file) $(cdbs_curpkg)";) \
 		echo 'fi'; \
 	    ) \
-	} >> $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper
+	    $(if $(dh_compat_5), \
+		if [ -e $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper ]; then \
+		    cat $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper; \
+		fi;) \
+	} >> $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper.new
+	mv $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper.new \
+	    $(CURDIR)/debian/$(cdbs_curpkg).prerm.debhelper
 # Add an encoding of the names of the diverted files to the Provides:
 # and Conflicts: lists.  This prevents two packages diverting the same
 # file from being installed simultaneously (it cannot work, and this

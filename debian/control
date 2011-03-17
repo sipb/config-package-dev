@@ -4,7 +4,9 @@ Priority: extra
 Maintainer: Tim Abbott <tabbott@mit.edu>
 Uploaders: Anders Kaseorg <andersk@mit.edu>
 Homepage: http://debathena.mit.edu/config-package-dev
-Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0)
+Build-Depends: cdbs,
+ debhelper (>= 6),
+ dh-buildinfo
 Standards-Version: 3.8.0
 
 Package: config-package-dev

@@ -15,8 +15,9 @@ config-package-dev (4.12) unstable; urgency=low
     Evan Broder.)
   * Write the prerm and postrm maintainer script fragments in reverse
     order when DH_COMPAT ≥ 5, to match debhelper’s behavior.
+  * Bump debhelper compatibility level to 6.
 
- -- Anders Kaseorg <andersk@mit.edu>  Sat, 05 Feb 2011 21:21:59 -0500
+ -- Anders Kaseorg <andersk@mit.edu>  Sat, 05 Feb 2011 21:26:19 -0500
 
 config-package-dev (4.11) unstable; urgency=low
 

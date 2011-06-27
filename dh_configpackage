@@ -1,0 +1,169 @@
+#!/usr/bin/perl -w
+# Copyright © 2007-2008 Anders Kaseorg <andersk@mit.edu> and
+#                       Tim Abbott <tabbott@mit.edu>
+# Copyright © 2011-2012 Geoffrey Thomas <geofft@mit.edu>
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+# 02111-1307 USA.
+
+
+=head1 NAME
+
+dh_configpackage - add maintainer script rules to displace, hide, or transform files
+
+=cut
+
+use strict;
+use Debian::Debhelper::Dh_Lib;
+use Debian::Debhelper::config_package;
+
+=head1 SYNOPSIS
+
+B<dh_configpackage> [S<I<debhelper options>>] [B<-n>]
+
+=head1 DESCRIPTION
+
+B<dh_configpackage> needs more docs.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<-n>, B<--noscripts>
+
+Do not modify maintainer scripts.
+
+=back
+
+=cut
+
+init();
+
+# We default the displace extension to a period followed by the first
+# word of the package name, on the assumption that it is probably the
+# site name (e.g., "debathena-kerberos-config" displaces to
+# ".debathena"). You can set this extension explicitly in
+# debian/$package.displace-extension or debian/displace-extension.
+sub displace_extension {
+    my $package = shift;
+    my $file = pkgfile($package, "displace-extension");
+    if ($file) {
+        open(my $fh, $file);
+        my $ret = <$fh>;
+        chomp $ret;
+        close $fh;
+        return $ret;
+    }
+    $package =~ s/-.*//;
+    return ".$package";
+}
+
+# Replace only the last instance of the displace extension in the
+# filename, to make it possible to displace /path/foo.divert to
+# foo.divert.divert-orig
+sub displace_files_replace_name {
+    my ($package, $filename, $replacement) = @_;
+    my $extension = displace_extension($package);
+    $filename =~ s/(.*)\Q$extension\E/$1$replacement/;
+    return $filename;
+}
+
+# Encode a full path into the path it should be diverted to if it's
+# hidden
+sub hide_files_name {
+    my ($filename, $package) = @_;
+    return "/usr/share/$package/" . encode($filename);
+}
+
+# At compatibility levels 6 and above, prerms take effect in the
+# opposite order from postinsts
+sub reverse_if_6 {
+    if (compat(5)) {
+        return @_;
+    } else {
+        return reverse @_;
+    }
+}
+
+foreach my $package (@{$dh{DOPACKAGES}}) {
+    my (@displacefiles, @hidefiles, @undisplacefiles, @unhidefiles);
+
+    my $displacefile = pkgfile($package, "displace");
+    @displacefiles = filearray($displacefile) if $displacefile;
+    my $hidefile = pkgfile($package, "hide");
+    @hidefiles = filearray($hidefile) if $hidefile;
+    my $undisplacefile = pkgfile($package, "undisplace");
+    @undisplacefiles = filearray($undisplacefile) if $undisplacefile;
+    my $unhidefile = pkgfile($package, "unhide");
+    @unhidefiles = filearray($unhidefile) if $unhidefile;
+
+    my $tmp = tmpdir($package);
+    my $extension = displace_extension($package);
+
+    if (! $dh{ONLYSCRIPTS} && @hidefiles) {
+        doit("install", "-d", "$tmp/usr/share/$package");
+    }
+
+    # Add code to postinst to add/remove diversions as appropriate
+    if (! $dh{NOSCRIPTS}) {
+        if (@undisplacefiles || @unhidefiles || @displacefiles || @hidefiles) {
+            my $postinst = escape_shell(join "\\n", (
+                'if [ "$1" = "configure" ]; then',
+                (map {"    check_undisplace_unlink " . displace_files_replace_name($package, $_, " ")} @undisplacefiles),
+                (map {"    check_undisplace_unhide $_ " . hide_files_name($_, $package)} @unhidefiles),
+                (map {"    displace_link " . displace_files_replace_name($package, $_, " ")} @displacefiles),
+                (map {"    displace_hide $_ " . hide_files_name($_, $package)} @hidefiles),
+                'fi'
+            ));
+            autoscript($package, "postinst", "displace.sh.in",
+                "s/#PACKAGE#/$package/g; s/#DEB_DISPLACE_EXTENSION#/$extension/g; \\\$a\"$postinst\"");
+        }
+        if (@displacefiles || @hidefiles) {
+            my $prerm = escape_shell(join "\\n", (
+                'if [ "$1" = "remove" ] || [ "$1" = "deconfigure" ]; then',
+                (map {"    undisplace_unlink " . displace_files_replace_name($package, $_, " ")} reverse_if_6 (@displacefiles)),
+                (map {"    undisplace_unhide $_ $package"} reverse_if_6 (@hidefiles)),
+                'fi'
+            ));
+            autoscript($package, "prerm", "displace.sh.in",
+                "s/#PACKAGE#/$package/g; s/#DEB_DISPLACE_EXTENSION#/$extension/g; \\\$a\"$prerm\"");
+        }
+    }
+
+    # Add an encoding of the names of the diverted files to the Provides:
+    # and Conflicts: lists.  This prevents two packages diverting the same
+    # file from being installed simultaneously (it cannot work, and this
+    # produces a much less ugly error).  Requires in debian/control:
+    #   Provides: ${diverted-files}
+    #   Conflicts: ${diverted-files}
+    foreach my $file (@displacefiles, @hidefiles) {
+        my $encodedfile = encode(displace_files_replace_name($package, $file, ""));
+        addsubstvar($package, "diverted-files", "diverts-$encodedfile");
+    }
+}
+
+=head1 SEE ALSO
+
+L<debhelper(7)>
+
+This program is a part of config-package-dev.
+
+=head1 AUTHOR
+
+config-package-dev was written by Anders Kaseorg <andersk@mit.edu> and
+Tim Abbott <tabbott@mit.edu>. The debhelper port is by Geoffrey Thomas
+<geofft@mit.edu>.
+
+=cut

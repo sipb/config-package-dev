@@ -61,19 +61,21 @@ $(call debian_check_files,%): $(call debian_check_files_tmp,%)
 $(call debian_check_files_tmp,%): target = $(call undebian_check_files_tmp,$@)
 $(call debian_check_files_tmp,%): name = $(call debian_check_files_check,$(target))
 $(call debian_check_files_tmp,%): truename = $(shell /usr/sbin/dpkg-divert --truename $(name))
-$(call debian_check_files_tmp,%): package = $(shell dpkg -S $(name) | grep -v "^diversion by" | cut -f1 -d:)
+$(call debian_check_files_tmp,%): package = $(shell dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p')
 $(call debian_check_files_tmp,%): $(truename)
 	[ -n "$(package)" ]
 	mkdir -p $(@D)
 	cp "$(truename)" $@
 	set -e; \
+	md5sums="$$(dpkg-query --control-path $(package) md5sums 2>/dev/null)" || \
+	    md5sums=/var/lib/dpkg/info/$(package).md5sums; \
 	md5=$$(dpkg-query --showformat='$${Conffiles}\n' --show $(package) | \
 	    sed -n 's,^ $(name) \([0-9a-f]*\)$$,\1  $@, p'); \
 	if [ -n "$$md5" ]; then \
 	    echo "$$md5" | md5sum -c; \
-	elif [ -e /var/lib/dpkg/info/$(package).md5sums ]; then \
+	elif [ -e "$$md5sums" ]; then \
 	    md5=$$(sed -n 's,^\([0-9a-f]*\)  $(patsubst /%,%,$(name))$$,\1  $@, p' \
-		/var/lib/dpkg/info/$(package).md5sums); \
+		"$$md5sums"); \
 	    [ -n "$$md5" ] && echo "$$md5" | md5sum -c; \
 	else \
 	    echo "config-package-dev: warning: $(package) does not include md5sums!"; \

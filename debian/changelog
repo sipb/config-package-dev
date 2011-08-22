@@ -1,3 +1,10 @@
+config-package-dev (4.13) UNRELEASED; urgency=low
+
+  * Fix DEB_CHECK_FILES and DEB_TRANSFORM_FILES with non-conffiles in
+    Multi-Arch: same packages.
+
+ -- Anders Kaseorg <andersk@mit.edu>  Sun, 21 Aug 2011 22:41:41 -0400
+
 config-package-dev (4.12) unstable; urgency=low
 
   [ Tim Abbott ]

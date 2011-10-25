@@ -1,4 +1,8 @@
 #!/usr/bin/perl
+
+use strict;
+use warnings;
+
 $ARGV[0] =~ s/\+([^+]*)\+/unparse($1)/eg;
 print $ARGV[0];
 sub unparse {

@@ -2,8 +2,10 @@ config-package-dev (4.13) UNRELEASED; urgency=low
 
   * Fix DEB_CHECK_FILES and DEB_TRANSFORM_FILES with non-conffiles in
     Multi-Arch: same packages.
+  * Fix encode script to work with Perl 5.12.  While we’re at it, turn on
+    strict and warnings.
 
- -- Anders Kaseorg <andersk@mit.edu>  Sun, 21 Aug 2011 22:41:41 -0400
+ -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 19:27:00 -0400
 
 config-package-dev (4.12) unstable; urgency=low
 

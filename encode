@@ -10,10 +10,12 @@
 # This encoding is intended to be human-readable, so that users can
 # determine the cause of conflicts between different configuration
 # packages.
+
+use strict;
+use warnings;
  
 $ARGV[0] =~ s,^/,,;
-split('', $ARGV[0]);
-foreach (@_){
+foreach (split('', $ARGV[0])) {
     if (m/[a-z0-9.-]/) {
 	print "$_";
     } elsif (m/[A-Z]/) {

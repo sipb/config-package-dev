@@ -5,6 +5,7 @@ config-package-dev (4.13) UNRELEASED; urgency=low
   * Fix encode script to work with Perl 5.12.  While we’re at it, turn on
     strict and warnings.
   * Bump Standards-Version to 3.9.2 (no changes required).
+  * Add Vcs-Git, Vcs-Browser.
 
  -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 20:04:23 -0400
 

@@ -24,7 +24,7 @@ divert_link_divert()
     file=$1
     ourfile=$2
     theirfile=$3
-    if ! dpkg-divert --list "$package" | \
+    if ! LC_ALL=C dpkg-divert --list "$package" | \
 	grep -xFq "diversion of $file to $theirfile by $package"; then
 	dpkg-divert --divert "$theirfile" --rename --package "$package" --add "$file"
     fi
@@ -116,7 +116,7 @@ check_undivert_unlink()
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
 
-    if dpkg-divert --list "$package" | \
+    if LC_ALL=C dpkg-divert --list "$package" | \
 	grep -xFq "diversion of $file to $theirfile by $package"; then
 	undivert_unlink "$prefix" "$suffix"
     fi
@@ -126,7 +126,7 @@ check_undivert_unremove()
 {
     file=$1
     removedfile=$2
-    if dpkg-divert --list "$package" | \
+    if LC_ALL=C dpkg-divert --list "$package" | \
 	grep -xFq "diversion of $file to $removedfile by $package"; then
 	undivert_unremove "$file"
     fi

@@ -61,7 +61,7 @@ $(call debian_check_files,%): $(call debian_check_files_tmp,%)
 $(call debian_check_files_tmp,%): target = $(call undebian_check_files_tmp,$@)
 $(call debian_check_files_tmp,%): name = $(call debian_check_files_check,$(target))
 $(call debian_check_files_tmp,%): truename = $(shell /usr/sbin/dpkg-divert --truename $(name))
-$(call debian_check_files_tmp,%): package = $(shell dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p')
+$(call debian_check_files_tmp,%): package = $(shell LC_ALL=C dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p')
 $(call debian_check_files_tmp,%): $(truename)
 	[ -n "$(package)" ]
 	mkdir -p $(@D)

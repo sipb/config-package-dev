@@ -4,10 +4,11 @@ config-package-dev (4.13) UNRELEASED; urgency=low
     Multi-Arch: same packages.
   * Fix encode script to work with Perl 5.12.  While we’re at it, turn on
     strict and warnings.
+  * Set LC_ALL=C when matching potentially localized dpkg output.
   * Bump Standards-Version to 3.9.2 (no changes required).
   * Add Vcs-Git, Vcs-Browser.
 
- -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 20:04:23 -0400
+ -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 20:26:16 -0400
 
 config-package-dev (4.12) unstable; urgency=low
 

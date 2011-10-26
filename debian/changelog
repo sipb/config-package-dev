@@ -1,4 +1,4 @@
-config-package-dev (4.13) UNRELEASED; urgency=low
+config-package-dev (4.13) unstable; urgency=low
 
   * Fix DEB_CHECK_FILES and DEB_TRANSFORM_FILES with non-conffiles in
     Multi-Arch: same packages.
@@ -8,7 +8,7 @@ config-package-dev (4.13) UNRELEASED; urgency=low
   * Bump Standards-Version to 3.9.2 (no changes required).
   * Add Vcs-Git, Vcs-Browser.
 
- -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 20:26:16 -0400
+ -- Anders Kaseorg <andersk@mit.edu>  Tue, 25 Oct 2011 20:26:50 -0400
 
 config-package-dev (4.12) unstable; urgency=low
 

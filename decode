@@ -1,15 +1,12 @@
 #!/usr/bin/perl
+# Reverse the encoding performed by the "encode" helper.
+#
+# This is not currently used by config-package-dev itself, but can by
+# used by helper programs that want to determine what files are diverted
+# by a package generated using this system.
 
 use strict;
 use warnings;
+use Debian::Debhelper::config_package;
 
-$ARGV[0] =~ s/\+([^+]*)\+/unparse($1)/eg;
-print $ARGV[0];
-sub unparse {
-    $_ = $_[0];
-    return "/" unless $_;
-    return "_" if $_ eq "-";
-    return uc($_) if /^[a-z]$/;
-    s/^x//;
-    return chr hex $_;
-}
+print decode($ARGV[0]);

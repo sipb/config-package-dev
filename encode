@@ -13,18 +13,6 @@
 
 use strict;
 use warnings;
+use Debian::Debhelper::config_package;
  
-$ARGV[0] =~ s,^/,,;
-foreach (split('', $ARGV[0])) {
-    if (m/[a-z0-9.-]/) {
-	print "$_";
-    } elsif (m/[A-Z]/) {
-	print "+".lc($_)."+";
-    } elsif ($_ eq '/') {
-	print "++";
-    } elsif ($_ eq '_') {
-	print "+-+";
-    } else{
-	print "+x".hex(ord($_))."+";
-    }
-}
+print encode($ARGV[0]);

@@ -53,7 +53,7 @@ endif
 # foo.divert.divert-orig
 divert_files_replace_name = $(shell echo $(1) | perl -pe 's/(.*)\Q$(DEB_DIVERT_EXTENSION)\E/$$1$(2)/')
 
-# Transform a full path into the path it should be diverted to if it's
+# Encode a full path into the path it should be diverted to if it's
 # removed
 remove_files_name = /usr/share/$(cdbs_curpkg)/$(shell $(DEB_DIVERT_ENCODER) $(1))
 
@@ -117,8 +117,8 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 # and Conflicts: lists.  This prevents two packages diverting the same
 # file from being installed simultaneously (it cannot work, and this
 # produces a much less ugly error).  Requires in debian/control:
-#   Provides: $(diverted-files)
-#   Conflicts: $(diverted-files)
+#   Provides: ${diverted-files}
+#   Conflicts: ${diverted-files}
 	set -e; \
 	{ \
 	    echo -n "diverted-files="; \

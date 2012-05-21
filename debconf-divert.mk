@@ -27,7 +27,7 @@ DEB_DEBCONF_HACK_SCRIPT = /usr/share/config-package-dev/debconf-hack.sh
 DEB_DEBCONF_HACK_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
     $(if $(wildcard debian/$(package).debconf-hack),$(package)))
 
-dh_compat_5 := $(shell if [ '$(DH_COMPAT)' -ge 5 ]; then echo y; fi)
+dh_compat_6 := $(shell if [ '$(DH_COMPAT)' -ge 6 ]; then echo y; fi)
 
 $(patsubst %,debian-debconf-hack/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: debian-debconf-hack/%:
 	set -e; \
@@ -50,7 +50,7 @@ $(patsubst %,debian-debconf-hack/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: debian-debco
 	} >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
 	set -e; \
 	{ \
-	    $(if $(dh_compat_5),, \
+	    $(if $(dh_compat_6),, \
 		if [ -e $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper ]; then \
 		    cat $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper; \
 		fi;) \
@@ -59,7 +59,7 @@ $(patsubst %,debian-debconf-hack/%,$(DEB_DEBCONF_HACK_PACKAGES)) :: debian-debco
 	    echo '    debconf_set </var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo '    rm -f /var/cache/$(cdbs_curpkg).debconf-save'; \
 	    echo 'fi'; \
-	    $(if $(dh_compat_5), \
+	    $(if $(dh_compat_6), \
 		if [ -e $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper ]; then \
 		    cat $(CURDIR)/debian/$(cdbs_curpkg).postrm.debhelper; \
 		fi;) \

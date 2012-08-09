@@ -1,0 +1,12 @@
+*/*/debian/*.debhelper.log
+*/*/debian/*.postinst.debhelper
+*/*/debian/*.prerm.debhelper
+*/*/debian/*.substvars
+*/*/debian/*/
+!*/*/debian/source/
+*/*/debian/files
+*/*.dsc
+*/*.tar.gz
+*/*.deb
+*/*.build
+*/*.changes

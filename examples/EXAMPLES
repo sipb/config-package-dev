@@ -1,14 +1,34 @@
 This directory contains example packages using the config-package-dev
 system that you can start from in designing your own packages.
 
-debathena-conffile-example-1.0: Example package using DEB_DISPLACE_FILES to displace configuration files
-debathena-bin-example-1.0: Example package wrapping binaries using DEB_DISPLACE_FILES
-debathena-bin-example-1.1: Upgrade of debathena-bin-example-1.0 undoing one of the uses of DEB_UNDISPLACE_FILES.
-debathena-transform-example-1.0: Example package using DEB_TRANSFORM_FILES
-debathena-cron-example-1.0: Example package using DEB_HIDE_FILES to disable a cron job
+debathena-conffile-example-1.0:
+    Displaces a configuration file and provides different configuration
+debathena-bin-example-1.0:
+    Displaces a binary and provides a wrapper script
+debathena-bin-example-1.1:
+    Upgrades debathena-bin-example-1.0 undoing one of the displacements
+debathena-transform-example-1.0:
+    Transforms a configuration file
+debathena-cron-example-1.0:
+    Hides a cron job
 
-Note that if you want the control files to be regenerated from the
-control.in files, you need to add
+Both CDBS and Debhelper 7+ versions are provided, in the cdbs/ and
+debhelper/ directories, respectively.
+
+
+If you are trying to build these packages out of a config-package-dev
+source tree (e.g., because you are hacking on config-package-dev), note
+that you will need to set a few environment variables to make things
+work. For debuild, e.g., try the command
+
+debuild -e PERL5LIB=../../.. -e DH_AUTOSCRIPTDIR=../../.. --prepend-path=../../..
+
+This trick will not work for CDBS, since debian/rules hard-codes an
+absolute path to CDBS class and rules files.
+
+
+For the CDBS examples, note that if you want the control files to be
+regenerated from the control.in files, you need to add
 
 DEB_AUTO_UPDATE_DEBIAN_CONTROL=1
 
@@ -17,3 +37,9 @@ to the debian/rules files (or e.g. set it in your environment).
 We do not include DEB_AUTO_UPDATE_DEBIAN_CONTROL=1 in these example
 rules files because option is banned in official Debian packages (see
 the CDBS section of <http://ftp-master.debian.org/REJECT-FAQ.html>).
+
+
+config-package-dev supports older versions of debhelper, although
+examples are not given.  You can use it in your own packages by adding
+dh_configpackage into the list of dh_* commands in debian/rules, before
+dh_link.

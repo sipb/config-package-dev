@@ -28,6 +28,9 @@ dh_configpackage - add maintainer script rules to displace, hide, or transform f
 use strict;
 use Debian::Debhelper::Dh_Lib;
 use Debian::Debhelper::config_package;
+use Digest::MD5;
+use Dpkg::Path qw(get_control_path);
+
 
 =head1 SYNOPSIS
 
@@ -97,6 +100,75 @@ sub reverse_if_6 {
     }
 }
 
+
+# check_file is used to verify that files on local disk have not
+# been modified from the upstream packaged version.
+#
+# We check md5sums from both /var/lib/dpkg/info/$(package).md5sums
+# (the md5sums database for non-conffiles) and the conffiles database
+# used for prompting about conffiles being changed (via dpkg-query).
+#
+# There is some wrangling here because the formats of these sources differ.
+
+sub check_file {
+    my $name = shift;
+    my $truename = `dpkg-divert --truename $name`;
+    chomp $truename;
+    die "$truename missing\n" unless (-e $truename);
+    my $package = `LC_ALL=C dpkg -S $name | sed -n '/^diversion by /! s/: .*\$// p'`;
+    chomp $package;
+    die "$truename is not owned by any package\n" unless ($package);
+
+    my $ctx = Digest::MD5->new;
+    open(my $fh, $truename);
+    binmode $fh;
+    $ctx->addfile($fh);
+    my $digest = $ctx->hexdigest;
+    close $fh;
+
+    my $hassums = 0;
+
+    FINDMD5: {
+        my $md5 = open($fh, "-|", qw(dpkg-query --showformat=${Conffiles}\n --show), $package);
+        while (<$fh>) {
+            next unless /^ \Q$name\E ([0-9a-f]{32})$/;
+            $hassums = 1;
+            if ($1 eq $digest) {
+                last FINDMD5;
+            } else {
+                die "md5sum mismatch on $name\n";
+            }
+        }
+        close $fh;
+
+        my $md5sums = get_control_path($package, "md5sums") || "/var/lib/dpkg/info/$package.md5sums";
+        if (-e $md5sums) {
+            $hassums = 1;
+            open($fh, $md5sums);
+            my $relname = $name;
+            $relname =~ s|^/||;
+            while (<$fh>) {
+                next unless /^([0-9a-f]{32})  \Q$relname\E$/;
+                if ($1 eq $digest) {
+                    last FINDMD5;
+                } else {
+                    die "md5sum mismatch on $name\n";
+                }
+            }
+            close $fh;
+        }
+
+        if ($hassums) {
+            die "$package contains no md5sums for $name. Is it a generated file?\n";
+        } else {
+            print "config-package-dev: warning: $package does not include md5sums!\n";
+            print "config-package-dev: warning: md5sum for $name not verified.\n";
+        }
+     }
+
+    return $truename;
+}
+
 foreach my $package (@{$dh{DOPACKAGES}}) {
     my (@displacefiles, @hidefiles, @undisplacefiles, @unhidefiles);
 
@@ -108,12 +180,44 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     @undisplacefiles = filearray($undisplacefile) if $undisplacefile;
     my $unhidefile = pkgfile($package, "unhide");
     @unhidefiles = filearray($unhidefile) if $unhidefile;
+    my $transformfile = pkgfile($package, "transform");
+    @transformfiles = filedoublearray($transformfile) if $transformfile;
 
     my $tmp = tmpdir($package);
     my $extension = displace_extension($package);
 
     if (! $dh{ONLYSCRIPTS} && @hidefiles) {
         doit("install", "-d", "$tmp/usr/share/$package");
+    }
+
+    foreach my $line (@transformfiles) {
+        my $file = shift @$line;
+        $file =~ s|^/?|/|;
+        my $source;
+        if (@$line[0] =~ /^</) {
+            $source = shift @$line;
+            $source =~ s/^<//;
+        } else {
+            $source = displace_files_replace_name($package, $file, "");
+            if ($source eq $file) {
+                die("Error: '$file' does not contain '$extension'\n");
+            }
+        }
+
+        #if ($rest =~ m|^debian/[^ ]*| && -e $rest) {
+        #    # In case this is a single file in debian/, make sure it's
+        #    # executable, since source-format 1.0 debian/ directories
+        #    # (from .diff.gz) cannot have mode bits
+        #    chmod 0755, $rest;
+        #}
+
+        $source = check_file($source);
+        my $destdir = dirname("$tmp/$file");
+        if (! -d $destdir) {
+            doit("install", "-d", $destdir);
+        }
+        complex_doit(@$line, "<", $source, ">", "$tmp/$file");
+        push @displacefiles, $source;
     }
 
     # Add code to postinst to add/remove diversions as appropriate

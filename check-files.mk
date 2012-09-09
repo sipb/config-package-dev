@@ -38,8 +38,7 @@ include /usr/share/cdbs/1/rules/divert.mk
 
 DEB_CHECK_FILES_TMPDIR = debian/check_file_copies
 
-debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(1))
-debian_check_files_check = $(call divert_files_replace_name,$(call debian_check_files_source,$(1)))
+debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(call divert_files_replace_name,$(1)))
 
 debian_check_files = $(patsubst %,$(DEB_CHECK_FILES_TMPDIR)%,$(1))
 undebian_check_files = $(patsubst $(DEB_CHECK_FILES_TMPDIR)%,%,$(1))
@@ -59,7 +58,7 @@ $(call debian_check_files,%): $(call debian_check_files_tmp,%)
 #
 # There is some wrangling here because the formats of these sources differ.
 $(call debian_check_files_tmp,%): target = $(call undebian_check_files_tmp,$@)
-$(call debian_check_files_tmp,%): name = $(call debian_check_files_check,$(target))
+$(call debian_check_files_tmp,%): name = $(call debian_check_files_source,$(target))
 $(call debian_check_files_tmp,%): truename = $(shell /usr/sbin/dpkg-divert --truename $(name))
 $(call debian_check_files_tmp,%): package = $(shell LC_ALL=C dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p')
 $(call debian_check_files_tmp,%): $(truename)

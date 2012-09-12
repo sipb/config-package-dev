@@ -2,13 +2,16 @@ Source: debathena-cron-example
 Section: config
 Priority: extra
 Maintainer: Tim Abbott <tabbott@mit.edu>
-Build-Depends: cdbs (>= 0.4.23-1.1), debhelper (>= 4.2.0), config-package-dev (>= 4.5~)
+Build-Depends: cdbs,
+ debhelper,
+ dh-buildinfo,
+ config-package-dev (>= 4.5~)
 Standards-Version: 3.8.0
 
 Package: debathena-cron-example
 Architecture: all
-Depends: cdbs, ${misc:Depends}, logcheck
+Depends: ${misc:Depends}, logcheck
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}
-Description: Example config-packag-dev package
+Description: Example config-package-dev package
  This is an example config-package-dev package.

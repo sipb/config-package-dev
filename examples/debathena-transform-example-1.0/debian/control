@@ -5,12 +5,12 @@ Maintainer: Tim Abbott <tabbott@mit.edu>
 Build-Depends: cdbs,
  debhelper,
  dh-buildinfo,
- config-package-dev (>= 4.5~), sysklogd
+ config-package-dev (>= 4.5~), lynx
 Standards-Version: 3.8.0
 
 Package: debathena-transform-example
 Architecture: all
-Depends: ${misc:Depends}, sysklogd
+Depends: ${misc:Depends}, lynx
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}
 Description: Example config-package-dev package

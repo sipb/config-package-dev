@@ -1,9 +1,0 @@
-#!/usr/bin/perl -0p
-# perl -0p is useful for writing efficient transform scripts.
-
-# Disable sending to all users 'emerg' level syslog messages.
-
-# This prevents CVS (or any other applications that wants to) from
-# spamming all terminals.
-
-s/^(\*\.emerg.*\*)/# $1/m or die;

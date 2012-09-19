@@ -1,9 +1,24 @@
-config-package-dev (4.14) UNRELEASED; urgency=low
+config-package-dev (4.14) unstable; urgency=low
 
+  [ Anders Kaseorg ]
   * Reverse prerm and postrm maintainer script fragments when DH_COMPAT ≥
     6, not 5, to actually match debhelper’s behavior.
 
- -- Anders Kaseorg <andersk@mit.edu>  Mon, 21 May 2012 01:58:27 -0400
+  [ Geoffrey Thomas ]
+  * Update debathena-transform-example-1.0 to an example more likely to
+    work on modern systems.
+  * Fix a bug that would erroneously remove DEB_TRANSFORM_EXTENSION from
+    an explicitly-specified DEB_TRANSFORM_FILES_SOURCE.
+  * Fix some typos and misleading documentation.  In particular, fix
+    build-dependencies and runtime dependencies of the examples.
+  * Remove an unnecessary parameter passed to undivert_unlink_divert in
+    divert.sh (Debathena: #1061).
+  * Undivert when a package is unconfigured, in addition to when it is
+    removed (partially addresses Debathena #388).
+  * Add self to uploaders, and change maintainer to the Debathena
+    project mailing list.
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Tue, 25 Sep 2012 13:24:06 -0400
 
 config-package-dev (4.13) unstable; urgency=low
 

@@ -1,13 +1,13 @@
 Source: config-package-dev
 Section: devel
 Priority: extra
-Maintainer: Tim Abbott <tabbott@mit.edu>
-Uploaders: Anders Kaseorg <andersk@mit.edu>
+Maintainer: Debathena Project <debathena@mit.edu>
+Uploaders: Tim Abbott <tabbott@mit.edu>, Anders Kaseorg <andersk@mit.edu>, Geoffrey Thomas <geofft@mit.edu>
 Homepage: http://debathena.mit.edu/config-package-dev
 Vcs-Git: git://andersk.mit.edu/config-package-dev.git
 Vcs-Browser: http://andersk.mit.edu/gitweb/config-package-dev.git
 Build-Depends: cdbs,
- debhelper (>= 6),
+ debhelper,
  dh-buildinfo
 Standards-Version: 3.9.2
 

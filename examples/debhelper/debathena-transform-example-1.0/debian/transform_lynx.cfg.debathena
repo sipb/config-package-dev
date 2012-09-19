@@ -1,0 +1,9 @@
+#!/usr/bin/perl -0p
+# perl -0p is useful for writing efficient transform scripts.
+
+# Set the default lynx home page to web.mit.edu. As noted in the
+# comments in lynx.cfg, if the lynx home page is down, lynx will refuse
+# to run. This caused a number of helpdesk complaints when the default
+# lynx home page was down for a day.
+
+s|^#STARTFILE:.*$|$&\nSTARTFILE:http://web.mit.edu/|m or die;

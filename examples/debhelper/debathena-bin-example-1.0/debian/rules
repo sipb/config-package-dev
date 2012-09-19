@@ -1,0 +1,20 @@
+#!/usr/bin/make -f
+
+DEB_DISPLACE_EXTENSION = .debathena
+# Install wrapper scripts for /usr/bin/elinks and /usr/bin/less
+DEB_DISPLACE_FILES_debathena-bin-example += \
+	/usr/bin/elinks.debathena \
+	/usr/bin/less.debathena
+
+# If these had materially different behavior from the original
+# versions, one might displace the man pages as well
+DEB_DISPLACE_FILES_debathena-bin-example += /usr/share/man/man1/elinks.debathena.1.gz
+DEB_DISPLACE_FILES_debathena-bin-example += /usr/share/man/man1/less.debathena.1.gz
+
+# This isn't config-package-dev specific, but we may want to install symlinks instead.
+DEB_DH_LINK_debathena-bin-example += \
+	/usr/share/man/man1/elinks.debathena-orig.1.gz /usr/share/man/man1/elinks.debathena.1.gz \
+	/usr/share/man/man1/less.debathena-orig.1.gz /usr/share/man/man1/less.debathena.1.gz
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/config-package.mk

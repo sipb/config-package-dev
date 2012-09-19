@@ -1,0 +1,14 @@
+Source: debathena-transform-example
+Section: config
+Priority: extra
+Maintainer: Tim Abbott <tabbott@mit.edu>
+Build-Depends: @cdbs@, lynx
+Standards-Version: 3.8.0
+
+Package: debathena-transform-example
+Architecture: all
+Depends: ${misc:Depends}, lynx
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: Example config-package-dev package
+ This is an example config-package-dev package.

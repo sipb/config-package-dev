@@ -6,6 +6,7 @@ The upstream location for this software is now the Debian archive.
 It is also available from http://debathena.mit.edu/config-package-dev
 
 Copyright: (C) Tim Abbott and Anders Kaseorg 2006-2008
+           (C) Geoffrey Thomas 2011-2013
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -18,4 +19,4 @@ Copyright: (C) Tim Abbott and Anders Kaseorg 2006-2008
   GNU General Public License for more details.
 
 On Debian systems, the complete text of the GNU General Public License
-can be found in the file /usr/share/common-licenses/GPL.
+can be found in the file /usr/share/common-licenses/GPL-2.

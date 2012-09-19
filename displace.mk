@@ -34,7 +34,7 @@ CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 5.0~)
 
 # displace.sh.in is included in the postinst/prerm scripts of packages
 # installing diversions and symlinks using config-package-dev.
-DEB_DISPLACE_SCRIPT = /usr/share/config-package-dev/displace.sh.in
+DEB_DISPLACE_SCRIPT = /usr/share/debhelper/autoscripts/displace.sh.in
 # script used to encode the path of a file uniquely in a valid virtual
 # package name.
 DEB_DISPLACE_ENCODER = /usr/share/config-package-dev/encode

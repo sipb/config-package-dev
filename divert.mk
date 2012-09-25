@@ -99,7 +99,7 @@ $(patsubst %,debian-divert/%,$(DEB_DIVERT_PACKAGES)) :: debian-divert/%:
 		fi;) \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DIVERT_EXTENSION#/$(DEB_DIVERT_EXTENSION)/g' $(DEB_DIVERT_SCRIPT); \
 	    $(if $(divert_files_thispkg), \
-		echo 'if [ "$$1" = "remove" ]; then'; \
+		echo 'if [ "$$1" = "remove" ] || [ "$$1" = "deconfigure" ]; then'; \
 		$(foreach file,$(call reverse_dh_compat_6,$(divert_files)), \
 		    echo "    undivert_unlink $(call divert_files_replace_name,$(file), )";) \
 		$(foreach file,$(call reverse_dh_compat_6,$(divert_remove_files)), \

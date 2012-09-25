@@ -98,7 +98,7 @@ undivert_unlink()
     theirfile=$prefix$theirs$suffix
 
     undivert_unlink_symlink "$file" "$ourfile" "$theirfile"
-    undivert_unlink_divert "$file" "$package"
+    undivert_unlink_divert "$file"
 }
 
 undivert_unremove()

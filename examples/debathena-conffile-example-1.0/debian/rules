@@ -3,9 +3,7 @@
 DEB_DIVERT_EXTENSION = .debathena
 # Replace some base files with simple replacements.
 DEB_DIVERT_FILES_debathena-conffile-example += \
-	/etc/issue.net.debathena \
-	/etc/mailname.debathena \
-	/etc/papersize.debathena
+	/etc/issue.net.debathena
 # These files are installed via dh_install from the files/ directory
 # (see debian/debathena-conffile-example.install)
 

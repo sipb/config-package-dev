@@ -68,7 +68,11 @@
 # (potentially long) configuration file that will work on several
 # Debian versions.  We recommend using DEB_TRANSFORM_FILES in
 # conjunction with pbuilder, sbuild, or another tool for building
-# Debian packages in a clean environment.
+# Debian packages in a clean environment. (That said, if /path/file is
+# diverted on the running system, DEB_CHECK_FILES_SOURCE does
+# reverse-resolve the diversion and default to the original version of
+# the file, to allow you to rebuild a package using DEB_TRANSFORM_FILES
+# that is currently installed, in most cases.)
 #
 # DEB_REMOVE_FILES_package += /path/file
 #

@@ -60,7 +60,7 @@
 # These variables have the following defaults:
 #
 #   DEB_TRANSFORM_SCRIPT_path/file.divert = debian/transform_file.divert
-#   DEB_CHECK_FILES_SOURCE_/path/file.divert = path/file
+#   DEB_CHECK_FILES_SOURCE_/path/file.divert = /path/file
 #
 #   If DEB_CHECK_FILES_SOURCE_/path/file.divert does not match the
 # md5sums shipped with the package containing it, the package build

@@ -21,7 +21,9 @@
 # config-package.mk.
 
 # divert.mk handles the low-level diversion logic.  It includes
-# divert.sh.in in the postinst and prerm scripts, and adds 
+# divert.sh.in in the postinst and prerm scripts, and adds calls to the
+# functions in divert.sh.in to add and remove diversions and symlinks at
+# the appropriate points.
 
 ifndef _cdbs_rules_divert
 _cdbs_rules_divert = 1

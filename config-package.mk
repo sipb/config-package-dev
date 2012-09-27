@@ -24,26 +24,26 @@
 #
 # Most variables are lists, so one can 
 #
-# DEB_DIVERT_FILES_package += /path1/file1.divert \
-#			      /path2/file2.divert \
-#			      /path3/file3.divert
+# DEB_DISPLACE_FILES_package += /path1/file1.divert \
+#				/path2/file2.divert \
+#				/path3/file3.divert
 #
 # We use += in the examples 
 #
 # The config-package-dev system supports the following variables:
 #
-# DEB_DIVERT_EXTENSION
+# DEB_DISPLACE_EXTENSION
 #
 #   Extension used for all config-package-dev diversions (defaults to
 # .divert, which we will use in examples).  This field is difficult to
 # change on package upgrades; we recommend picking a value to use for
 # all packages at your site.
 #
-# DEB_DIVERT_FILES_package += /path/file.divert
+# DEB_DISPLACE_FILES_package += /path/file.divert
 #
 #   List of absolute paths to files to be replaced at package install
 # time by being diverted from /path/file to /path/file.divert-orig
-# (DEB_DIVERT_EXTENSION should be part of the path, but need not
+# (DEB_DISPLACE_EXTENSION should be part of the path, but need not
 # appear at the end); a symlink /path/file -> /path/file.divert will
 # be installed in its place.  The user is responsible for installing
 # /path/file.divert.  This is best for diverting binaries and most
@@ -51,7 +51,7 @@
 #
 # DEB_TRANSFORM_FILES_package += /path/file.divert
 #
-#   This works like DEB_DIVERT_FILES, but additionally the file to be
+#   This works like DEB_DISPLACE_FILES, but additionally the file to be
 # installed to /path/file.divert will be generated at package build
 # time as the standard output from
 #
@@ -74,7 +74,7 @@
 # the file, to allow you to rebuild a package using DEB_TRANSFORM_FILES
 # that is currently installed, in most cases.)
 #
-# DEB_REMOVE_FILES_package += /path/file
+# DEB_HIDE_FILES_package += /path/file
 #
 #   List of absolute paths to files to be diverted to a unique path in
 # /usr/share/package/.  No symlink or replacement file will be
@@ -86,19 +86,19 @@
 # replacement file to /etc/cron.d/file; you must install it to some
 # other path (which should be fine in a .d directory).  If you want to
 # install a replacement file with the same name, you probably want
-# DEB_DIVERT_FILES.
+# DEB_DISPLACE_FILES.
 #
-# DEB_UNDIVERT_FILES_package += /path/file.divert
+# DEB_UNDISPLACE_FILES_package += /path/file.divert
 #
 #   List of absolute paths to files whose diversions caused by
-# DEB_DIVERT_FILES are to be removed upon installing this package, if
+# DEB_DISPLACE_FILES are to be removed upon installing this package, if
 # the diversions have been made on the target system.  This is
 # primarily useful for removing a now-unecessary diversion provided by
 # a previous version of this package on an upgrade.
 #
-# DEB_UNREMOVE_FILES_package += /path/file
+# DEB_UNHIDE_FILES_package += /path/file
 #
-#   This works like DEB_UNDIVERT_FILES_package, except that it only
+#   This works like DEB_UNDISPLACE_FILES_package, except that it only
 # removes the diversion (not a symlink).
 
 ifndef _cdbs_rules_config_package

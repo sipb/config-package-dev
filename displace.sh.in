@@ -1,14 +1,14 @@
 #
-# divert_link <prefix> <suffix>
+# displace_link <prefix> <suffix>
 #
 #   Ensures that the file <prefix><suffix> is properly diverted to
 #   <prefix>.divert-orig<suffix> by this package, and becomes a
 #   symbolic link to either <prefix>.divert<suffix> (default) or
 #   <prefix>.divert-orig<suffix>.
 #
-# undivert_unlink <prefix> <suffix>
+# undisplace_unlink <prefix> <suffix>
 #
-#   Undoes the action of divert_link <prefix> <suffix> specified
+#   Undoes the action of displace_link <prefix> <suffix> specified
 #   above.
 #
 # Version: 4.0
@@ -16,10 +16,10 @@
 
 package=#PACKAGE#
 
-ours=#DEB_DIVERT_EXTENSION#
-theirs=#DEB_DIVERT_EXTENSION#-orig
+ours=#DEB_DISPLACE_EXTENSION#
+theirs=#DEB_DISPLACE_EXTENSION#-orig
 
-divert_link_divert()
+displace_link_displace()
 {
     file=$1
     ourfile=$2
@@ -30,7 +30,7 @@ divert_link_divert()
     fi
 }
 
-divert_link_symlink()
+displace_link_symlink()
 {
     file=$1
     ourfile=$2
@@ -44,7 +44,7 @@ divert_link_symlink()
     fi
 }
 
-divert_link()
+displace_link()
 {
     prefix=$1
     suffix=$2
@@ -52,19 +52,19 @@ divert_link()
     file=$prefix$suffix
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
-    divert_link_divert "$file" "$ourfile" "$theirfile"
-    divert_link_symlink "$file" "$ourfile" "$theirfile"
+    displace_link_displace "$file" "$ourfile" "$theirfile"
+    displace_link_symlink "$file" "$ourfile" "$theirfile"
 }
 
-divert_remove()
+displace_hide()
 {
     file=$1
     ourfile=""
     theirfile=$2
-    divert_link_divert "$file" "$ourfile" "$theirfile"
+    displace_link_displace "$file" "$ourfile" "$theirfile"
 }
 
-undivert_unlink_symlink()
+undisplace_unlink_symlink()
 {
     file="$1"
     ourfile="$2"
@@ -78,7 +78,7 @@ undivert_unlink_symlink()
     fi
 }
 
-undivert_unlink_divert()
+undisplace_unlink_displace()
 {
     file="$1"
     if [ ! -L "$file" ] && [ ! -e "$file" ]; then
@@ -88,7 +88,7 @@ undivert_unlink_divert()
     fi
 }
 
-undivert_unlink()
+undisplace_unlink()
 {
     prefix=$1
     suffix=$2
@@ -97,17 +97,17 @@ undivert_unlink()
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
 
-    undivert_unlink_symlink "$file" "$ourfile" "$theirfile"
-    undivert_unlink_divert "$file"
+    undisplace_unlink_symlink "$file" "$ourfile" "$theirfile"
+    undisplace_unlink_displace "$file"
 }
 
-undivert_unremove()
+undisplace_unhide()
 {
     file=$1
-    undivert_unlink_divert "$file"
+    undisplace_unlink_displace "$file"
 }
 
-check_undivert_unlink()
+check_undisplace_unlink()
 {
     prefix=$1
     suffix=$2
@@ -118,16 +118,16 @@ check_undivert_unlink()
 
     if LC_ALL=C dpkg-divert --list "$package" | \
 	grep -xFq "diversion of $file to $theirfile by $package"; then
-	undivert_unlink "$prefix" "$suffix"
+	undisplace_unlink "$prefix" "$suffix"
     fi
 }
 
-check_undivert_unremove()
+check_undisplace_unhide()
 {
     file=$1
-    removedfile=$2
+    hiddenfile=$2
     if LC_ALL=C dpkg-divert --list "$package" | \
-	grep -xFq "diversion of $file to $removedfile by $package"; then
-	undivert_unremove "$file"
+	grep -xFq "diversion of $file to $hiddenfile by $package"; then
+	undisplace_unhide "$file"
     fi
 }

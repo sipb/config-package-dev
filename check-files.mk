@@ -34,11 +34,11 @@
 ifndef _cdbs_rules_check_files
 _cdbs_rules_check_files = 1
 
-include /usr/share/cdbs/1/rules/divert.mk
+include /usr/share/cdbs/1/rules/displace.mk
 
 DEB_CHECK_FILES_TMPDIR = debian/check_file_copies
 
-debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(call divert_files_replace_name,$(1)))
+debian_check_files_source = $(if $(DEB_CHECK_FILES_SOURCE_$(1)),$(DEB_CHECK_FILES_SOURCE_$(1)),$(call displace_files_replace_name,$(1)))
 
 debian_check_files = $(patsubst %,$(DEB_CHECK_FILES_TMPDIR)%,$(1))
 undebian_check_files = $(patsubst $(DEB_CHECK_FILES_TMPDIR)%,%,$(1))

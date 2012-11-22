@@ -44,10 +44,18 @@ DEB_DISPLACE_PACKAGES += $(foreach package,$(DEB_ALL_PACKAGES), \
     $(if $(DEB_HIDE_FILES_$(package)),$(package), \
     $(if $(DEB_UNHIDE_FILES_$(package)),$(package), \
     $(if $(DEB_UNDISPLACE_FILES_$(package)),$(package), \
-    $(if $(DEB_DISPLACE_FILES_$(package)),$(package)))))))
+    $(if $(DEB_DISPLACE_FILES_$(package)),$(package), \
+    $(if $(DEB_REMOVE_FILES_$(package)),$(package), \
+    $(if $(DEB_UNREMOVE_FILES_$(package)),$(package), \
+    $(if $(DEB_UNDIVERT_FILES_$(package)),$(package), \
+    $(if $(DEB_DIVERT_FILES_$(package)),$(package)))))))))))
 
 ifeq ($(DEB_DISPLACE_EXTENSION),)
+ifeq ($(DEB_DIVERT_EXTENSION),)
 DEB_DISPLACE_EXTENSION = .divert
+else
+DEB_DISPLACE_EXTENSION = $(DEB_DIVERT_EXTENSION)
+endif
 endif
 
 # Replace only the last instance of DEB_DISPLACE_EXTENSION in the
@@ -65,10 +73,10 @@ reverse = $(foreach n,$(shell seq $(words $(1)) -1 1),$(word $(n),$(1)))
 reverse_dh_compat_6 = $(if $(dh_compat_6),$(call reverse,$(1)),$(1))
 
 debian-displace/%: package = $(subst debian-displace/,,$@)
-debian-displace/%: displace_files = $(DEB_DISPLACE_FILES_$(package)) $(DEB_TRANSFORM_FILES_$(package))
-debian-displace/%: displace_hide_files = $(DEB_HIDE_FILES_$(package))
-debian-displace/%: displace_undisplace_files = $(DEB_UNDISPLACE_FILES_$(package))
-debian-displace/%: displace_unhide_files = $(DEB_UNHIDE_FILES_$(package))
+debian-displace/%: displace_files = $(DEB_DISPLACE_FILES_$(package)) $(DEB_DIVERT_FILES_$(package)) $(DEB_TRANSFORM_FILES_$(package))
+debian-displace/%: displace_hide_files = $(DEB_HIDE_FILES_$(package)) $(DEB_REMOVE_FILES_$(package))
+debian-displace/%: displace_undisplace_files = $(DEB_UNDISPLACE_FILES_$(package)) $(DEB_UNDIVERT_FILES_$(package))
+debian-displace/%: displace_unhide_files = $(DEB_UNHIDE_FILES_$(package)) $(DEB_UNREMOVE_FILES_$(package))
 debian-displace/%: displace_files_all = $(strip $(displace_files) $(displace_hide_files) $(displace_undisplace_files) $(displace_unhide_files))
 debian-displace/%: displace_files_thispkg = $(strip $(displace_files) $(displace_hide_files))
 $(patsubst %,debian-displace/%,$(DEB_DISPLACE_PACKAGES)) :: debian-displace/%:

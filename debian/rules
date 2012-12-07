@@ -1,4 +1,12 @@
 #!/usr/bin/make -f
+version := $(shell dpkg-parsechangelog | sed -nr 's/^Version: (.*)/\1/p')
+pod2man := pod2man -r "config-package-dev $(version)" -c config-package-dev
 
 %:
 	dh $@
+
+override_dh_auto_build:
+	$(pod2man) --section=1 dh_configpackage dh_configpackage.1
+
+override_dh_clean:
+	dh_clean dh_configpackage.1

@@ -1,0 +1,10 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with config-package
+
+override_dh_configpackage:
+	dh_configpackage
+ifneq ($(wildcard /etc/sysctl.d/10-ptrace.conf),)
+	dh_configpackage --hide /etc/sysctl.d/10-ptrace.conf
+endif

@@ -1,0 +1,14 @@
+Source: debathena-conffile-example
+Section: config
+Priority: extra
+Maintainer: Geoffrey Thomas <geofft@mit.edu>
+Build-Depends: debhelper (>= 7.0.50~), config-package-dev (>= 4.15~)
+Standards-Version: 3.9.2
+
+Package: debathena-conffile-example
+Architecture: all
+Depends: ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: Example config-package-dev package
+ This is an example config-package-dev package.

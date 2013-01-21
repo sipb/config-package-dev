@@ -33,7 +33,7 @@ include /usr/share/cdbs/1/rules/debhelper.mk
 CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 5.0~)
 
 # displace.sh.in is included in the postinst/prerm scripts of packages
-# installing diversions using config-package-dev.
+# installing diversions and symlinks using config-package-dev.
 DEB_DISPLACE_SCRIPT = /usr/share/config-package-dev/displace.sh.in
 # script used to encode the path of a file uniquely in a valid virtual
 # package name.
@@ -82,7 +82,7 @@ debian-displace/%: displace_files_thispkg = $(strip $(displace_files) $(displace
 $(patsubst %,debian-displace/%,$(DEB_DISPLACE_PACKAGES)) :: debian-displace/%:
 #   Writing shell scripts in makefiles sucks.  Remember to $$ shell
 #   variables and include \ at the end of each line.
-# Add code to postinst to add/remove diversions as appropriate
+# Add code to postinst to add/remove diversions and symlinks as appropriate
 	set -e; \
 	{ \
 	    sed 's/#PACKAGE#/$(cdbs_curpkg)/g; s/#DEB_DISPLACE_EXTENSION#/$(DEB_DISPLACE_EXTENSION)/g' $(DEB_DISPLACE_SCRIPT); \
@@ -100,7 +100,7 @@ $(patsubst %,debian-displace/%,$(DEB_DISPLACE_PACKAGES)) :: debian-displace/%:
 		echo 'fi'; \
 	    ) \
 	} >> $(CURDIR)/debian/$(cdbs_curpkg).postinst.debhelper
-# Add code to prerm script to undo diversions when package is removed.
+# Add code to prerm script to undo diversions and symlinks when package is removed.
 	set -e; \
 	{ \
 	    $(if $(dh_compat_6),, \

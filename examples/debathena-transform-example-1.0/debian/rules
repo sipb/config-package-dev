@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
-DEB_DIVERT_EXTENSION = .debathena
+DEB_DISPLACE_EXTENSION = .debathena
 DEB_TRANSFORM_FILES_debathena-transform-example += \
 	/etc/lynx-cur/lynx.cfg.debathena
 

@@ -1,11 +1,11 @@
 This directory contains example packages using the config-package-dev
 system that you can start from in designing your own packages.
 
-debathena-conffile-example-1.0: Example package using DEB_DIVERT_FILES to divert configuration files
-debathena-bin-example-1.0: Example package diverting binaries using DEB_DIVERT_FILES
-debathena-bin-example-1.1: Upgrade of debathena-bin-example-1.0 removing one of the diversions using DEB_UNDIVERT_FILES.
+debathena-conffile-example-1.0: Example package using DEB_DISPLACE_FILES to displace configuration files
+debathena-bin-example-1.0: Example package wrapping binaries using DEB_DISPLACE_FILES
+debathena-bin-example-1.1: Upgrade of debathena-bin-example-1.0 undoing one of the uses of DEB_UNDISPLACE_FILES.
 debathena-transform-example-1.0: Example package using DEB_TRANSFORM_FILES
-debathena-cron-example-1.0: Example package using DEB_REMOVE_FILES to disable a cron job
+debathena-cron-example-1.0: Example package using DEB_HIDE_FILES to disable a cron job
 
 Note that if you want the control files to be regenerated from the
 control.in files, you need to add

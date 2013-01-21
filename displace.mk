@@ -30,7 +30,7 @@ _cdbs_rules_displace = 1
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 
-CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 4.5~)
+CDBS_BUILD_DEPENDS := $(CDBS_BUILD_DEPENDS), config-package-dev (>= 5.0~)
 
 # displace.sh.in is included in the postinst/prerm scripts of packages
 # installing diversions using config-package-dev.

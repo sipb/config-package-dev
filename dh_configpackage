@@ -52,7 +52,20 @@ Do not modify maintainer scripts.
 
 =cut
 
-init();
+my (@arg_displace, @arg_hide, @arg_undisplace, @arg_unhide, @arg_transform);
+my $args_present = 0;
+
+init(options => {
+    "displace=s" => \@arg_displace,
+    "hide=s" => \@arg_hide,
+    "undisplace=s" => \@arg_undisplace,
+    "unhide=s" => \@arg_unhide,
+    "transform=s" => \@arg_transform,
+});
+
+if (@arg_displace or @arg_hide or @arg_undisplace or @arg_unhide or @arg_transform) {
+    $args_present = 1;
+}
 
 # We default the displace extension to a period followed by the first
 # word of the package name, on the assumption that it is probably the
@@ -170,18 +183,26 @@ sub check_file {
 }
 
 foreach my $package (@{$dh{DOPACKAGES}}) {
-    my (@displacefiles, @hidefiles, @undisplacefiles, @unhidefiles);
+    my (@displacefiles, @hidefiles, @undisplacefiles, @unhidefiles, @transformfiles);
 
-    my $displacefile = pkgfile($package, "displace");
-    @displacefiles = filearray($displacefile) if $displacefile;
-    my $hidefile = pkgfile($package, "hide");
-    @hidefiles = filearray($hidefile) if $hidefile;
-    my $undisplacefile = pkgfile($package, "undisplace");
-    @undisplacefiles = filearray($undisplacefile) if $undisplacefile;
-    my $unhidefile = pkgfile($package, "unhide");
-    @unhidefiles = filearray($unhidefile) if $unhidefile;
-    my $transformfile = pkgfile($package, "transform");
-    @transformfiles = filedoublearray($transformfile) if $transformfile;
+    if (($package eq $dh{FIRSTPACKAGE} || $dh{PARAMS_ALL}) && $args_present) {
+        @displacefiles = @arg_displace;
+        @hidefiles = @arg_hide;
+        @undisplacefiles = @arg_undisplace;
+        @unhidefiles = @arg_unhide;
+        @transformfiles = map {[split]} @arg_transform;
+    } else {
+        my $displacefile = pkgfile($package, "displace");
+        @displacefiles = filearray($displacefile) if $displacefile;
+        my $hidefile = pkgfile($package, "hide");
+        @hidefiles = filearray($hidefile) if $hidefile;
+        my $undisplacefile = pkgfile($package, "undisplace");
+        @undisplacefiles = filearray($undisplacefile) if $undisplacefile;
+        my $unhidefile = pkgfile($package, "unhide");
+        @unhidefiles = filearray($unhidefile) if $unhidefile;
+        my $transformfile = pkgfile($package, "transform");
+        @transformfiles = filedoublearray($transformfile) if $transformfile;
+    }
 
     my $tmp = tmpdir($package);
     my $extension = displace_extension($package);

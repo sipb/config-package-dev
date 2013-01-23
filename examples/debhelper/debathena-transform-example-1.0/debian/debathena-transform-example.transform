@@ -1,0 +1,1 @@
+/etc/lynx-cur/lynx.cfg.debathena perl -0pe 's|^#STARTFILE:.*$|$&\nSTARTFILE:http://web.mit.edu/|m or die'

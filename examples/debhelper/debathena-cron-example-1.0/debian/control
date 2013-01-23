@@ -1,12 +1,9 @@
 Source: debathena-cron-example
 Section: config
 Priority: extra
-Maintainer: Tim Abbott <tabbott@mit.edu>
-Build-Depends: cdbs,
- debhelper,
- dh-buildinfo,
- config-package-dev (>= 4.5~)
-Standards-Version: 3.8.0
+Maintainer: Geoffrey Thomas <geofft@mit.edu>
+Build-Depends: debhelper (>= 7.0.0~), config-package-dev (>= 4.15~)
+Standards-Version: 3.9.2
 
 Package: debathena-cron-example
 Architecture: all

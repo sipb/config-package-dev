@@ -1,17 +1,4 @@
 #!/usr/bin/make -f
 
-DEB_DISPLACE_EXTENSION = .debathena
-
-# This will remove /etc/cron.d/logcheck
-DEB_HIDE_FILES_debathena-cron-example += \
-	/etc/cron.d/logcheck
-
-# We will install (using dh_installcron, by placing the new cron job
-# at debian/debathena-cron-example.cron.d) a new version that runs
-# every minute, rather than every 30 minutes.  This will generate a
-# lot of mail.  Note that we cannot install a new file to the path
-# /etc/cron.d/logcheck from which a file was removed using
-# DEB_HIDE_FILES.
-
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/rules/config-package.mk
+%:
+	dh $@ --with=config-package

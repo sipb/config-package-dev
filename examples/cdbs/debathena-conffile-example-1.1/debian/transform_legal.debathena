@@ -1,0 +1,6 @@
+#!/bin/sh
+
+cat
+echo
+echo "Use of Athena facilities is restricted to authorized holders of Athena"
+echo "accounts (MIT students, faculty, staff, and other authorized guests.)"

@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+DEB_DISPLACE_EXTENSION = .debathena
+# Replace some base files with simple replacements.
+DEB_DISPLACE_FILES_debathena-conffile-example += \
+	/etc/issue.net.debathena
+# These files are installed via dh_install from the files/ directory
+# (see debian/debathena-conffile-example.install)
+
+ifneq ($(wildcard /etc/sysctl.d/10-ptrace.conf),)
+    DEB_HIDE_FILES_debathena-conffile-example += \
+	/etc/sysctl.d/10-ptrace.conf
+endif
+
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/config-package.mk

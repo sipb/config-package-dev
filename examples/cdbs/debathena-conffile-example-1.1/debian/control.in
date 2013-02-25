@@ -1,0 +1,14 @@
+Source: debathena-conffile-example
+Section: config
+Priority: extra
+Maintainer: Jonathan Reed <jdreed@mit.edu>
+Build-Depends: @cdbs@
+Standards-Version: 3.8.0
+
+Package: debathena-conffile-example
+Architecture: all
+Depends: ${misc:Depends}
+Provides: ${diverted-files}
+Conflicts: ${diverted-files}
+Description: Example config-package-dev package
+ This is an example config-package-dev package.

@@ -3,6 +3,8 @@ system that you can start from in designing your own packages.
 
 debathena-conffile-example-1.0:
     Displaces a configuration file and provides different configuration
+debathena-conffile-example-1.1:
+    Transforms a configuration file if it exists at build time
 debathena-bin-example-1.0:
     Displaces a binary and provides a wrapper script
 debathena-bin-example-1.1:

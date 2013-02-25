@@ -1,0 +1,12 @@
+debathena-conffile-example (1.1) unstable; urgency=low
+
+  * Remove /etc/sysctl.d/10-ptrace.conf if it exists. Once again,
+    convenience trumps security.
+
+ -- Jonathan Reed <jdreed@mit.edu>  Mon, 25 Feb 2013 15:22:59 -0500
+
+debathena-conffile-example (1.0) unstable; urgency=low
+
+  * Initial release.
+
+ -- Tim Abbott <tabbott@mit.edu>  Sun, 13 Jul 2008 00:37:03 -0400

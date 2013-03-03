@@ -93,7 +93,7 @@
 #   List of absolute paths to files whose diversions caused by
 # DEB_DISPLACE_FILES are to be removed upon installing this package, if
 # the diversions have been made on the target system.  This is
-# primarily useful for removing a now-unecessary displacement provided by
+# primarily useful for removing a now-unnecessary displacement provided by
 # a previous version of this package on an upgrade.
 #
 # DEB_UNHIDE_FILES_package += /path/file

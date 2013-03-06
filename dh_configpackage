@@ -29,7 +29,7 @@ use strict;
 use Debian::Debhelper::Dh_Lib;
 use Debian::Debhelper::config_package;
 use Digest::MD5;
-use Dpkg::Path qw(get_control_path);
+use IPC::Open3;
 
 
 =head1 SYNOPSIS
@@ -287,7 +287,7 @@ sub check_file {
     my $hassums = 0;
 
     FINDMD5: {
-        my $md5 = open($fh, "-|", qw(dpkg-query --showformat=${Conffiles}\n --show), $package);
+        open($fh, "-|", qw(dpkg-query --showformat=${Conffiles}\n --show), $package);
         while (<$fh>) {
             next unless /^ \Q$name\E ([0-9a-f]{32})$/;
             $hassums = 1;
@@ -299,7 +299,16 @@ sub check_file {
         }
         close $fh;
 
-        my $md5sums = get_control_path($package, "md5sums") || "/var/lib/dpkg/info/$package.md5sums";
+        open(my $devnull, ">/dev/null");
+        my $pid = open3(undef, my $dpkg_query, $devnull, qw(dpkg-query --control-path), $package, "md5sums");
+        my $md5sums = <$dpkg_query>;
+        chomp $md5sums;
+        close $dpkg_query;
+        close $devnull;
+        waitpid $pid, 0;
+
+        $md5sums ||= "/var/lib/dpkg/info/$package.md5sums";
+
         if (-e $md5sums) {
             $hassums = 1;
             open($fh, $md5sums);

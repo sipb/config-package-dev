@@ -399,7 +399,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     if (! $dh{NOSCRIPTS}) {
         if (@undisplacefiles || @unhidefiles || @displacefiles || @hidefiles) {
             my $postinst = escape_shell(join "\\n", (
-                'if [ "$1" = "configure" ]; then',
+                'if [ "$1" = "configure" ] || [ "$1" = "abort-remove" ]; then',
                 (map {"    check_undisplace_unlink " . displace_files_replace_name($package, $_, " ")} @undisplacefiles),
                 (map {"    check_undisplace_unhide $_ " . hide_files_name($_, $package)} @unhidefiles),
                 (map {"    displace_link " . displace_files_replace_name($package, $_, " ")} @displacefiles),

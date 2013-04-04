@@ -392,7 +392,7 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
             doit("install", "-d", $destdir);
         }
         complex_doit(@$line, "<", $source, ">", "$tmp/$file");
-        push @displacefiles, $source;
+        push @displacefiles, $file;
     }
 
     # Add code to postinst to add/remove diversions as appropriate

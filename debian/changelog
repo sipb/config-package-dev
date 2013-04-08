@@ -1,3 +1,11 @@
+config-package-dev (5.1) unstable; urgency=low
+
+  [ Team Upload ]
+  * Support the abort-remove invocation of postinst
+  * Add the transformed file, not its source, to the list of files to displace
+
+ -- Alexander Chernyakhovsky <achernya@mit.edu>  Mon, 08 Apr 2013 15:12:32 -0400
+
 config-package-dev (5.0) unstable; urgency=low
 
   * Add Debhelper support (Debathena: #867) (Closes: #693672).  This

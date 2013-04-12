@@ -1,3 +1,11 @@
+config-package-dev (5.1.1) unstable; urgency=low
+
+  [ Team Upload ]
+  * No-change rebuild to remove stray symlinks and build detritus from the
+    upload (Closes: #705214)
+
+ -- Jonathan Reed <jdreed@mit.edu>  Fri, 12 Apr 2013 17:59:30 -0400
+
 config-package-dev (5.1) unstable; urgency=low
 
   [ Team Upload ]

@@ -1,6 +1,6 @@
 config-package-dev (5.1.1) unstable; urgency=low
 
-  [ Team Upload ]
+  * Team upload.
   * No-change rebuild to remove stray symlinks and build detritus from the
     upload (Closes: #705214)
 

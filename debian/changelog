@@ -1,3 +1,10 @@
+config-package-dev (5.1.2) unstable; urgency=low
+
+  * Team upload.
+  * Don't hardcode dpkg-divert's path in check-files.mk (Debathena: #1358)
+
+ -- Jonathan Reed <jdreed@mit.edu>  Wed, 22 May 2013 08:27:04 -0400
+
 config-package-dev (5.1.1) unstable; urgency=low
 
   * Team upload.

@@ -223,8 +223,10 @@ sub displace_extension {
     if ($file) {
         open(my $fh, $file);
         my $ret = <$fh>;
-        chomp $ret;
         close $fh;
+
+        chomp $ret;
+        $ret = ".$ret" unless $ret =~ /^\./; # must start with .
         return $ret;
     }
     $package =~ s/-.*//;

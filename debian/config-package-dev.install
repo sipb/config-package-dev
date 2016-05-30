@@ -8,4 +8,4 @@ decode usr/share/config-package-dev/
 displace.sh.in usr/share/debhelper/autoscripts/
 debconf-hack.sh usr/share/config-package-dev/
 dh_configpackage usr/bin/
-Debian usr/share/perl5/
+lib/Debian usr/share/perl5/

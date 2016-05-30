@@ -23,7 +23,7 @@ source tree (e.g., because you are hacking on config-package-dev), note
 that you will need to set a few environment variables to make things
 work. For debuild, e.g., try the command
 
-debuild -e PERL5LIB=../../.. -e DH_AUTOSCRIPTDIR=../../.. --prepend-path=../../..
+debuild -e PERL5LIB=../../../lib -e DH_AUTOSCRIPTDIR=../../.. --prepend-path=../../..
 
 This trick will not work for CDBS, since debian/rules hard-codes an
 absolute path to CDBS class and rules files.

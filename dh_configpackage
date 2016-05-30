@@ -358,6 +358,13 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
         @transformfiles = filedoublearray($transformfile) if $transformfile;
     }
 
+    foreach my $listref (\@displacefiles, \@hidefiles, \@undisplacefiles, \@unhidefiles, \@transformfiles) {
+        foreach my $file (@$listref) {
+            $file =~ s|^/?|/|;
+        }
+    }
+
+
     my $tmp = tmpdir($package);
     my $extension = displace_extension($package);
 
@@ -367,7 +374,6 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
 
     foreach my $line (@transformfiles) {
         my $file = shift @$line;
-        $file =~ s|^/?|/|;
         my $source;
         if (@$line[0] =~ /^</) {
             $source = shift @$line;

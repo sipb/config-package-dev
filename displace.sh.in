@@ -156,4 +156,4 @@ check_undisplace_unhide()
     fi
 }
 
-# End of divert.sh.in
+# End of displace.sh.in

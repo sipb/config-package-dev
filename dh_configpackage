@@ -378,9 +378,13 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
     foreach my $line (@transformfiles) {
         my $file = shift @$line;
         my $source;
+        my $source_is_local = 0;
         if (@$line[0] =~ /^</) {
             $source = shift @$line;
             $source =~ s/^<//;
+            if ($source !~ m!^/!) {
+                $source_is_local = 1;
+            }
         } else {
             $source = displace_files_replace_name($package, $file, "");
             if ($source eq $file) {
@@ -395,7 +399,10 @@ foreach my $package (@{$dh{DOPACKAGES}}) {
         #    chmod 0755, $rest;
         #}
 
-        $source = check_file($source);
+        # Let users use local files as input
+        if (! $source_is_local) {
+            $source = check_file($source);
+        }
         my $destdir = dirname("$tmp/$file");
         if (! -d $destdir) {
             doit("install", "-d", $destdir);

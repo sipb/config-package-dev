@@ -72,9 +72,10 @@ of files, and this suffix plus the string "-orig" is appended to the
 original versions of the files.  The default value is the first word of
 the package name.  For example, the extension for debathena-bin-example
 would be ".debathena".  So if debathena-bin-example displaced /bin/true,
-the original /bin/true would be found at /bin/true.debathena-orig and
-the new version (installed by e.g. dh_install) found at
-/bin/true.debathena.  /bin/true itself would become a symbolic link.
+dh_configpackage would create a diversion from /bin/true to
+/bin/true.debathena.orig, and create a symbolic link from /bin/true to
+/bin/true.debathena.  The package should then install its modified
+version at /bin/true.debathena, using e.g. B<dh_install>.
 (For the remainder of this documentation, ".debathena" will be used as
 the displace extension.)
 

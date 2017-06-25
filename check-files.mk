@@ -59,13 +59,14 @@ $(call debian_check_files,%): $(call debian_check_files_tmp,%)
 # There is some wrangling here because the formats of these sources differ.
 $(call debian_check_files_tmp,%): target = $(call undebian_check_files_tmp,$@)
 $(call debian_check_files_tmp,%): name = $(call debian_check_files_source,$(target))
-$(call debian_check_files_tmp,%): truename = $(shell dpkg-divert --truename $(name))
-$(call debian_check_files_tmp,%): package = $(shell LC_ALL=C dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p')
+$(call debian_check_files_tmp,%): truename = $(if $(filter /%,$(name)),$(shell dpkg-divert --truename $(name)),$(name))
+$(call debian_check_files_tmp,%): package = $(if $(filter /%,$(name)),$(shell LC_ALL=C dpkg -S $(name) | sed -n '/^diversion by /! s/: .*$$// p'),x)
 $(call debian_check_files_tmp,%): $(truename)
 	[ -n "$(package)" ]
 	mkdir -p $(@D)
 	cp "$(truename)" $@
 	set -e; \
+	case "$(name)" in /*) ;; *) exit 0;; esac; \
 	md5sums="$$(dpkg-query --control-path $(package) md5sums 2>/dev/null)" || \
 	    md5sums=/var/lib/dpkg/info/$(package).md5sums; \
 	md5=$$(dpkg-query --showformat='$${Conffiles}\n' --show $(package) | \

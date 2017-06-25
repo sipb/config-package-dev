@@ -58,6 +58,10 @@ DEB_DISPLACE_EXTENSION = $(DEB_DIVERT_EXTENSION)
 endif
 endif
 
+ifeq ($(filter .%,$(DEB_DISPLACE_EXTENSION)),)
+DEB_DISPLACE_EXTENSION := .$(DEB_DISPLACE_EXTENSION)
+endif
+
 # Replace only the last instance of DEB_DISPLACE_EXTENSION in the
 # filename, to make it possible to displace /path/foo.divert to
 # foo.divert.divert-orig

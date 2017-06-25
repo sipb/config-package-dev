@@ -1,3 +1,22 @@
+config-package-dev (5.2) unstable; urgency=medium
+
+  * Permit debian/$package.displace-extension to omit the leading dot
+    (Closes: #760200). Thanks to Dima Kogan for the patch.
+  * Allow Debhelper control files to omit leading slashes
+    (Closes: #803962).
+  * Allow specifying relative paths, within the Debian source package,
+    as the source for a transformation, and do not check these files
+    against the dpkg database (Closes: #864611). Thanks to Luca Boccassi
+    for the patch.
+  * Bump Standards-Version to 4.0.0 and Debhelper compat level to v9
+    (no changes).
+  * debian/control, debian/copyright: Use https in URLs.
+  * debian/control: Depend on ${perl:Depends}, which gives us a
+    dependency on perl (not just perl-base) for Digest::MD5. Thanks,
+    dh_perl!
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Sat, 01 Jul 2017 11:46:18 -0400
+
 config-package-dev (5.1.2) unstable; urgency=low
 
   * Team upload.

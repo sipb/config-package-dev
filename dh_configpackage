@@ -163,7 +163,7 @@ The full path should generally be an absolute path; however, in rare
 cases, it is useful to use a file in the current package's build
 directory as the transformation source.  In this case, the package's
 build directory is assumed to be clean, and no dpkg ownership check is
-performe.
+performed.
 
 B<NOTE:> There is no "untransform" operation.  Because a transform
 operation is a special case of a displace operation, the "undisplace"

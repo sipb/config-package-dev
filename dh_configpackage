@@ -140,8 +140,17 @@ this with e.g. Perl's C<or die> syntax to make sure that the source
 file of the transformation has not changed from what you expected.
 
 I<Transformation sources>: Under normal operation, the source (passed
-on stdin) for the transformation is the name of the diversion without
-the divert extension.  In some cases, you may wish to use a different
+on stdin) for the transformation is the name of the target file without
+the displace extension. B<dh_configpackage> will check to make sure that
+the source file is owned by a Debian package and has not been modified
+locally, in order to ensure that unwanted changes do not show up in the
+result of the transformation. (If the file is already displaced or
+transformed by a config-package-dev package, it will check the original
+version of the file and use that as the transformation source, allowing
+a config-package-dev package to be built correctly on a running system
+where a previous version of the same package was already installed.)
+
+In some cases, you may wish to use a different
 source (e.g. a sample configuration file in /usr/share/doc).  You can
 specify this source as an optional field between the diversion
 filename and the transformation.  This field must begin with a '<'
@@ -149,6 +158,12 @@ immediately followed by the full path to the source.  Taking the
 example above, we might alter it as follows:
 
  /etc/school.conf.debathena </usr/share/doc/school/conf.example sed -e 's/Harvard/MIT/g'
+
+The full path should generally be an absolute path; however, in rare
+cases, it is useful to use a file in the current package's build
+directory as the transformation source.  In this case, the package's
+build directory is assumed to be clean, and no dpkg ownership check is
+performe.
 
 B<NOTE:> There is no "untransform" operation.  Because a transform
 operation is a special case of a displace operation, the "undisplace"

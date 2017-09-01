@@ -1,3 +1,15 @@
+config-package-dev (5.3) unstable; urgency=high
+
+  * Fix a regression in the change that permitted omission of leading
+    slashes, which completely broke transforms (Closes: #873966). Thanks
+    to Bruno Maitre for the report and the patch.
+  * Fix the paths in the two transform examples to work with the current
+    version of lynx.
+  * Update Standards-Version to 4.1.0 by changing priority from "extra"
+    to "optional".
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Fri, 01 Sep 2017 14:39:35 -0400
+
 config-package-dev (5.2) unstable; urgency=medium
 
   * Permit debian/$package.displace-extension to omit the leading dot

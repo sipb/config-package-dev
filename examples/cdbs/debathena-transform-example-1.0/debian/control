@@ -1,12 +1,12 @@
 Source: debathena-transform-example
 Section: config
-Priority: extra
+Priority: optional
 Maintainer: Tim Abbott <tabbott@mit.edu>
 Build-Depends: cdbs,
  debhelper,
  dh-buildinfo,
  config-package-dev (>= 4.5~), lynx
-Standards-Version: 3.8.0
+Standards-Version: 4.1.0
 
 Package: debathena-transform-example
 Architecture: all

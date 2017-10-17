@@ -10,3 +10,4 @@
 */*.deb
 */*.build
 */*.changes
+*/*.buildinfo

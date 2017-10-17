@@ -1,0 +1,7 @@
+#!/bin/sh
+
+set -eu
+
+for pkg in examples/*/*/; do
+    (cd "$pkg" && dpkg-buildpackage --no-sign)
+done

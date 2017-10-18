@@ -4,8 +4,8 @@ Priority: optional
 Maintainer: Debathena Project <debathena@mit.edu>
 Uploaders: Tim Abbott <tabbott@mit.edu>, Anders Kaseorg <andersk@mit.edu>, Geoffrey Thomas <geofft@mit.edu>
 Homepage: https://debathena.mit.edu/config-package-dev
-Vcs-Git: git://debathena.mit.edu/config-package-dev.git
-Vcs-Browser: https://debathena.mit.edu/trac/browser/config-package-dev/
+Vcs-Git: https://github.com/sipb/config-package-dev
+Vcs-Browser: https://github.com/sipb/config-package-dev
 Build-Depends: debhelper (>= 9)
 Standards-Version: 4.1.0
 

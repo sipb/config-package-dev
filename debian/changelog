@@ -1,3 +1,13 @@
+config-package-dev (5.4) unstable; urgency=medium
+
+  * Add a basic autopkgtest to make sure the examples build.
+  * Move packaging to GitHub, and add the .travis.yml from
+    http://travis.debian.net/ to run autopkgtests on each push.
+  * examples/*: Bump debian/compat to 9 (no changes) and
+    Standards-Version to 4.1.0 (change priority to "optional").
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Wed, 18 Oct 2017 10:14:41 -0400
+
 config-package-dev (5.3) unstable; urgency=high
 
   * Fix a regression in the change that permitted omission of leading

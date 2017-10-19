@@ -3,5 +3,5 @@
 set -eu
 
 for pkg in examples/*/*/; do
-    (cd "$pkg" && dpkg-buildpackage --no-sign)
+    (cd "$pkg" && dpkg-buildpackage -us -uc)
 done

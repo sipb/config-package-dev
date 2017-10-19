@@ -6,6 +6,3 @@ services:
 
 script:
   - wget -O- http://travis.debian.net/script.sh | sh -
-
-env:
-  - TRAVIS_DEBIAN_DISTRIBUTION=unstable

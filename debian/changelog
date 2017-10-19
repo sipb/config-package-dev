@@ -1,3 +1,12 @@
+config-package-dev (5.4~bpo70+1) wheezy-backports; urgency=medium
+
+  * Rebuild for wheezy-backports.
+    - Revert changes to transform examples to work with lynx from
+      unstable.
+    - debian/tests/examples: Adjust syntax to support older dpkg.
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Wed, 18 Oct 2017 20:49:32 -0400
+
 config-package-dev (5.4) unstable; urgency=medium
 
   * Add a basic autopkgtest to make sure the examples build.

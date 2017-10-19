@@ -13,8 +13,8 @@ which means that your changes remain applied even when the original
 package is upgraded.
 
 Configuration packages are particularly useful for sites using Debian or
-Ubuntu (or another dpkg-based distribution) and are already running
-their own interrnal apt repository. You can provide site defaults and
+Ubuntu (or another dpkg-based distribution) who are already running
+their own internal apt repository. You can provide site defaults and
 configuration through your existing package-update processes, and make
 sure systems are up-to-date in both software and configuration by
 checking what versions of packages they have installed.

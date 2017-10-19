@@ -8,5 +8,8 @@ pod2man := pod2man -r "config-package-dev $(version)" -c config-package-dev
 override_dh_auto_build:
 	$(pod2man) --section=1 dh_configpackage dh_configpackage.1
 
+override_dh_compress:
+	dh_compress -Xexamples/
+
 override_dh_clean:
 	dh_clean dh_configpackage.1

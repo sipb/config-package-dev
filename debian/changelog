@@ -1,3 +1,9 @@
+config-package-dev (5.4~bpo9+1) stretch-backports; urgency=medium
+
+  * Rebuild for stretch-backports (no changes).
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Wed, 18 Oct 2017 20:18:13 -0400
+
 config-package-dev (5.4) unstable; urgency=medium
 
   * Add a basic autopkgtest to make sure the examples build.

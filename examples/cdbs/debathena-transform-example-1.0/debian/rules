@@ -2,7 +2,7 @@
 
 DEB_DISPLACE_EXTENSION = .debathena
 DEB_TRANSFORM_FILES_debathena-transform-example += \
-	/etc/lynx/lynx.cfg.debathena
+	/etc/lynx-cur/lynx.cfg.debathena
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/config-package.mk

@@ -43,7 +43,7 @@ package=#PACKAGE#
 ours=#DEB_DISPLACE_EXTENSION#
 theirs=#DEB_DISPLACE_EXTENSION#-orig
 
-displace_link_displace()
+displace_link_divert()
 {
     file=$1
     ourfile=$2
@@ -76,7 +76,7 @@ displace_link()
     file=$prefix$suffix
     ourfile=$prefix$ours$suffix
     theirfile=$prefix$theirs$suffix
-    displace_link_displace "$file" "$ourfile" "$theirfile"
+    displace_link_divert "$file" "$ourfile" "$theirfile"
     displace_link_symlink "$file" "$ourfile" "$theirfile"
 }
 
@@ -85,7 +85,7 @@ displace_hide()
     file=$1
     ourfile=""
     theirfile=$2
-    displace_link_displace "$file" "$ourfile" "$theirfile"
+    displace_link_divert "$file" "$ourfile" "$theirfile"
 }
 
 undisplace_unlink_symlink()
@@ -102,7 +102,7 @@ undisplace_unlink_symlink()
     fi
 }
 
-undisplace_unlink_displace()
+undisplace_unlink_divert()
 {
     file="$1"
     if [ ! -L "$file" ] && [ ! -e "$file" ]; then
@@ -122,13 +122,13 @@ undisplace_unlink()
     theirfile=$prefix$theirs$suffix
 
     undisplace_unlink_symlink "$file" "$ourfile" "$theirfile"
-    undisplace_unlink_displace "$file"
+    undisplace_unlink_divert "$file"
 }
 
 undisplace_unhide()
 {
     file=$1
-    undisplace_unlink_displace "$file"
+    undisplace_unlink_divert "$file"
 }
 
 check_undisplace_unlink()

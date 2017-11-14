@@ -6,6 +6,7 @@ Uploaders: Tim Abbott <tabbott@mit.edu>, Anders Kaseorg <andersk@mit.edu>, Geoff
 Homepage: https://debathena.mit.edu/config-package-dev
 Vcs-Git: https://github.com/sipb/config-package-dev
 Vcs-Browser: https://github.com/sipb/config-package-dev
+Rules-Requires-Root: no
 Build-Depends: debhelper (>= 9)
 Standards-Version: 4.1.0
 

@@ -1,0 +1,5 @@
+debian/config-package-dev.debhelper.log
+debian/config-package-dev.substvars
+debian/config-package-dev/
+debian/files
+dh_configpackage.1

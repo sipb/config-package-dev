@@ -1,3 +1,21 @@
+config-package-dev (5.5) unstable; urgency=medium
+
+  * Add Rules-Requires-Root: no to base package and examples, which
+    should fix ci.debian.net tests.
+  * Add Multi-Arch: foreign, which allows apt to resolve
+    config-package-dev as a cross-build-dependency. Thanks to @mrksngl
+    on GitHub for the patch.
+  * Also add Multi-Arch: foreign to the examples, as this is right for most
+    users of config-package-dev (just as Architecture: all is right for most
+    users of config-package-dev).
+  * displace.sh: Rename (un)displace_link_displace to
+    (un)displace_link_divert (Debathena: #1362)
+  * Switch to machine-readable debian/copyright.
+  * Ensure installed examples are not compressed, so you can copy them
+    and build them directly.
+
+ -- Geoffrey Thomas <geofft@mit.edu>  Sat, 27 Jan 2018 18:29:36 -0500
+
 config-package-dev (5.4) unstable; urgency=medium
 
   * Add a basic autopkgtest to make sure the examples build.

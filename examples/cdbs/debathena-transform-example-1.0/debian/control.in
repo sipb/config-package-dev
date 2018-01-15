@@ -2,6 +2,7 @@ Source: debathena-transform-example
 Section: config
 Priority: optional
 Maintainer: Tim Abbott <tabbott@mit.edu>
+Rules-Requires-Root: no
 Build-Depends: @cdbs@, lynx
 Standards-Version: 4.1.0
 

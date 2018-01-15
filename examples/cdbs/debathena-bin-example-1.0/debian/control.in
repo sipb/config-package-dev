@@ -1,9 +1,9 @@
 Source: debathena-bin-example
 Section: config
-Priority: extra
+Priority: optional
 Maintainer: Tim Abbott <tabbott@mit.edu>
 Build-Depends: @cdbs@
-Standards-Version: 3.8.0
+Standards-Version: 4.1.0
 
 Package: debathena-bin-example
 Architecture: all

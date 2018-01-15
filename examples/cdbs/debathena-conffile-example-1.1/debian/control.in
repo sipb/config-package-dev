@@ -1,9 +1,9 @@
 Source: debathena-conffile-example
 Section: config
-Priority: extra
+Priority: optional
 Maintainer: Jonathan Reed <jdreed@mit.edu>
 Build-Depends: @cdbs@
-Standards-Version: 3.8.0
+Standards-Version: 4.1.0
 
 Package: debathena-conffile-example
 Architecture: all

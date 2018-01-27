@@ -7,6 +7,7 @@ Standards-Version: 4.1.0
 
 Package: debathena-cron-example
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends}, logcheck
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}

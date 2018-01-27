@@ -10,6 +10,7 @@ Standards-Version: 4.1.0
 
 Package: debathena-conffile-example
 Architecture: all
+Multi-Arch: foreign
 Depends: ${misc:Depends}
 Provides: ${diverted-files}
 Conflicts: ${diverted-files}

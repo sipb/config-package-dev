@@ -1,3 +1,9 @@
+config-package-dev (5.6) UNRELEASED; urgency=medium
+
+  * Trim trailing whitespace.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Thu, 20 Oct 2022 10:05:57 -0000
+
 config-package-dev (5.5) unstable; urgency=medium
 
   * Add Rules-Requires-Root: no to base package and examples, which
@@ -304,7 +310,7 @@ debathena-config-build-common (3.6) unstable; urgency=low
 
 debathena-config-build-common (3.5) unstable; urgency=low
 
-  * Change check-conffiles interface to make it work properly with 
+  * Change check-conffiles interface to make it work properly with
     dpkg-diverted files.
 
  -- Anders Kaseorg <andersk@mit.edu>  Mon, 13 Aug 2007 17:59:43 -0400
@@ -330,7 +336,7 @@ debathena-config-build-common (3.2) unstable; urgency=low
 debathena-config-build-common (3.1) unstable; urgency=low
 
   * Divert with the current package name, not the empty string.
-  * Add this package as an automatic build dependency of anything that 
+  * Add this package as an automatic build dependency of anything that
     uses it.
 
  -- Anders Kaseorg <andersk@mit.edu>  Wed, 18 Jul 2007 01:13:40 -0400

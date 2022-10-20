@@ -4,11 +4,11 @@ Priority: optional
 Maintainer: Debathena Project <debathena@mit.edu>
 Uploaders: Tim Abbott <tabbott@mit.edu>, Anders Kaseorg <andersk@mit.edu>, Geoffrey Thomas <geofft@mit.edu>
 Homepage: https://debathena.mit.edu/config-package-dev
-Vcs-Git: https://github.com/sipb/config-package-dev
+Vcs-Git: https://github.com/sipb/config-package-dev.git
 Vcs-Browser: https://github.com/sipb/config-package-dev
 Rules-Requires-Root: no
-Build-Depends: debhelper (>= 9)
-Standards-Version: 4.1.0
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.1.1
 
 Package: config-package-dev
 Architecture: all

@@ -3,6 +3,7 @@ config-package-dev (5.6) UNRELEASED; urgency=medium
   * Trim trailing whitespace.
   * Bump debhelper from deprecated 9 to 13.
   * Set debhelper-compat version in Build-Depends.
+  * Use canonical URL in Vcs-Git.
 
  -- Debian Janitor <janitor@jelmer.uk>  Thu, 20 Oct 2022 10:05:57 -0000
 

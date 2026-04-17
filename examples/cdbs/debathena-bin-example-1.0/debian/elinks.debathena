@@ -1,6 +1,0 @@
-#!/bin/sh
-# Wrapper to make elinks put its UNIX sockets under /tmp rather than in $HOME.
-# Works around <http://bugs.debian.org/460336>.
-TMPDIR=mktemp -d
-export ELINKS_CONFDIR=$TMPDIR
-exec elinks.debathena-orig "$@"x

@@ -1,3 +1,3 @@
 Tests: examples
-Depends: @, build-essential, debhelper, cdbs, lynx
+Depends: @, build-essential, debhelper, lynx
 Restrictions: allow-stderr

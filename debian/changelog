@@ -1,3 +1,12 @@
+config-package-dev (5.6) unstable; urgency=medium
+
+  * Team Upload.
+  * Remove support for CDBS (Closes: #1110310)
+  * Bump Standards-Version to 4.7.4 and Debhelper compat level to v10
+    (no changes).
+
+ -- Alexander Chernyakhovsky <achernya@mit.edu>  Fri, 17 Apr 2026 13:26:36 -0400
+
 config-package-dev (5.5.2) unstable; urgency=medium
 
   * Team Upload.

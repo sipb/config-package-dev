@@ -14,8 +14,7 @@ debathena-transform-example-1.0:
 debathena-cron-example-1.0:
     Hides a cron job
 
-Both CDBS and Debhelper 7+ versions are provided, in the cdbs/ and
-debhelper/ directories, respectively.
+Debhelper 7+ versions are provided, in the debhelper/ directory.
 
 
 If you are trying to build these packages out of a config-package-dev
@@ -24,22 +23,6 @@ that you will need to set a few environment variables to make things
 work. For debuild, e.g., try the command
 
 debuild -e PERL5LIB=../../../lib -e DH_AUTOSCRIPTDIR=../../.. --prepend-path=../../..
-
-This trick will not work for CDBS, since debian/rules hard-codes an
-absolute path to CDBS class and rules files.
-
-
-For the CDBS examples, note that if you want the control files to be
-regenerated from the control.in files, you need to add
-
-DEB_AUTO_UPDATE_DEBIAN_CONTROL=1
-
-to the debian/rules files (or e.g. set it in your environment).
-
-We do not include DEB_AUTO_UPDATE_DEBIAN_CONTROL=1 in these example
-rules files because option is banned in official Debian packages (see
-the CDBS section of <http://ftp-master.debian.org/REJECT-FAQ.html>).
-
 
 config-package-dev supports older versions of debhelper, although
 examples are not given.  You can use it in your own packages by adding
